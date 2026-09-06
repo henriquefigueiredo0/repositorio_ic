@@ -24,7 +24,7 @@ def ler_saidas ():
     byte_q0 = dados[0]                  # Pega o byte Q0 inteiro
     saida = []                          # Cria o vetor que guarda as saidas
 
-    for i in range(8):                  # Separa cada bit do byte e coloca em cada variavel de saida
+    for i in range(8):                  # Separa cada bit do byte e coloca cada variavel de saida
         bit = (byte_q0 >> i) & 1        # A saida de Q0.0 fica salva em saida[0] e por ai vai
         saida.append(bit)
 
