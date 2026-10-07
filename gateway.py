@@ -2,11 +2,11 @@ import paho.mqtt.client as mqtt
 import snap7
 from snap7.type import Areas
 import time
+import struct
 
 # Define os parametros de conexão com o broker MQTT
 broker = "192.168.0.10"
 porta = 1883
-topico_bits = "ic/esp/dados"
 topico_distancia = "ic/esp/distancia"
 
 # Conexao com o CLP
@@ -42,53 +42,30 @@ def escrever_memoria_clp(numero_memoria, valor_memoria):
     dados_m[0] = byte_m0                            # Coloca o byte alterado de volta
     clp.write_area(Areas.MK, 0, 0, dados_m)         # Escreve no CLP
 
+# Escreve um numero real (float) na memoria do CLP
+def escrever_real_clp(byte_inicial, valor):
+
+    dados = bytearray(struct.pack(">f", valor))
+    clp.write_area(Areas.MK, 0, byte_inicial, dados)
+
     
 def quando_conectar(cliente, userdata, flags, reason_code, properties):
 
     print("Conectado ao broker!")
-    cliente.subscribe(topico_bits)           # Inscreve-se no tópico para receber mensagens da ESP sobre os bits
     cliente.subscribe(topico_distancia)      # Inscreve-se no tópico para receber mensagens da ESP sobre a distancia
 
 def quando_receber(cliente, userdata, mensagem):
 
     dado = mensagem.payload.decode()    # Decodifica o payload da mensagem e deixa em formato string
 
-    # Caso o topico seja o de bits
-    if mensagem.topic == topico_bits:
-
-        print("Recebido da ESP:", dado)
-
-        # Verifica se recebeu exatamente 3 bits
-        if (len(dado) == 3):
-
-            # Separa os 3 caracteres
-            bit1 = int(dado[0])
-            bit2 = int(dado[1])
-            bit3 = int(dado[2])
-
-            print(dado, "sendo escrito no CLP.")
-
-            # Escreve nos bits de memoria do CLP
-            escrever_memoria_clp(1, bit1)
-            escrever_memoria_clp(2, bit2)
-            escrever_memoria_clp(3, bit3)
-
-            print(dado, "escrito no CLP.")
-            print()
-            
-        else: print("Mensagem invalida. Use algo como 010.")
-
     # Caso o topico seja o de distancia
-    elif mensagem.topic == topico_distancia:
+    if mensagem.topic == topico_distancia:
 
         print("Distancia recebida da ESP:", dado, "cm")
         print()
 
         distancia = float(dado)  
-
-        # Liga a saida Q0.4 se a distancia for menor que 10cm, caso contrario desliga
-        if (distancia < 10): escrever_memoria_clp(4, 1)  
-        else: escrever_memoria_clp(4, 0)  
+        escrever_real_clp(10, distancia)   # Escreve a distancia recebida em M10.0
 
 # Cria o objeto cliente MQTT
 cliente = mqtt.Client(
