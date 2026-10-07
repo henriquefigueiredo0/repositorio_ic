@@ -5,7 +5,7 @@ import time
 import struct
 
 # Define os parametros de conexão com o broker MQTT
-broker = "192.168.0.10"
+broker = "192.168.0.123"
 porta = 1883
 topico_distancia = "ic/esp/distancia"
 
