@@ -110,7 +110,7 @@ void loop() {
   // Funcao que mantem a comunicacao em segundo plano
   mqtt.loop();
 
-  if (millis() - ultimaMedicao >= 1000) {   // Acontece a cada tantos segundos sem parar o resto do programa
+  if (millis() - ultimaMedicao >= 300) {   // Acontece a cada tantos segundos sem parar o resto do programa
 
     ultimaMedicao = millis();
     float distancia = medirDistancia();
