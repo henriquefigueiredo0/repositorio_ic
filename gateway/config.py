@@ -1,5 +1,6 @@
 # Define o protocolo ativo, pode ser "MQTT" ou "OPC-UA"
-protocolo_ativo = "MQTT"  
+# protocolo_ativo = "MQTT"  
+# Por agora , vou fazer com 1 ou 2
 
 # Define os parametros de conexão com o broker MQTT
 broker = "192.168.0.123"
