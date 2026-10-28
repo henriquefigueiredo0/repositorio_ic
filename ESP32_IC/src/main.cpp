@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
 
@@ -138,7 +139,7 @@ void loop() {
       
       // Caso o protocolo seja OPC-UA
       else if (protocoloAtivo == OPCUA) {
-        enviarOPCUA(distancia);  
+      //  enviarOPCUA(distancia);  
       }
     }
 
