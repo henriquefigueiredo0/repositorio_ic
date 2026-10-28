@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 
-from config import broker, porta, topico_distancia
+from config import broker_mqtt, porta_mqtt, topico_distancia
 
 funcao_distancia = None
 
@@ -40,7 +40,7 @@ def iniciar(callback_distancia):
 
     funcao_distancia = callback_distancia   # funcao_distancia deixa de ser None e passa a ser escrever_distancia
 
-    cliente.connect(broker, porta)  # Se conecta ao broker MQTT
+    cliente.connect(broker_mqtt, porta_mqtt)  # Se conecta ao broker MQTT
     cliente.loop_start()            # Mantem o loop em segundo plano
 
 # Para o loop MQTT
