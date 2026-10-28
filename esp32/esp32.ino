@@ -1,18 +1,21 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 
+enum Protocolos {MQTT, OPCUA};      // Cria o tipo "Protocolo" que pode ser MQTT ou OPCUA
+Protocolos protocoloAtivo = MQTT;  // Define qual protocolo vai ser usado
+
 // Wi-Fi do roteador local
 const char* ssid = "Henrique_IC";
 const char* senha = "henrique";
 
-// IP do PC onde está rodando o Mosquitto
+// IP da TvBox onde está rodando o Mosquitto
 const char* broker = "192.168.0.123";
 const int porta_mqtt = 1883;
 
 // Topicos que a ESP vai se inscrever
 const char* topico_distancia = "ic/esp/distancia";
 
-// Cria os objetos
+// Cria os objetos de Wifi
 WiFiClient wifiClient;
 PubSubClient mqtt(wifiClient);
 
@@ -85,6 +88,13 @@ float medirDistancia() {
   return distancia;
 }
 
+void enviarMQTT(float distancia) {
+
+  char mensagemDistancia[20]; // Variavel que vai armazenar a distancia convertida para string
+  dtostrf(distancia, 1, 2, mensagemDistancia);  // Converte a distancia de float para string
+  mqtt.publish(topico_distancia, mensagemDistancia);  // Publica a distancia no topico do MQTT
+}
+
 void setup() {
 
   Serial.begin(115200);
@@ -121,12 +131,15 @@ void loop() {
       Serial.print(distancia);
       Serial.println(" cm");
 
-      // Converte float para texto
-      char mensagemDistancia[20];
-      dtostrf(distancia, 1, 2, mensagemDistancia);
-
-      // Publica via MQTT
-      mqtt.publish(topico_distancia, mensagemDistancia);
+      // Caso o protocolo seja MQTT
+      if (protocoloAtivo == MQTT) {
+        enviarMQTT(distancia);
+      } 
+      
+      // Caso o protocolo seja OPC-UA
+      else if (protocoloAtivo == OPCUA) {
+        enviarOPCUA(distancia);  
+      }
     }
 
     else {

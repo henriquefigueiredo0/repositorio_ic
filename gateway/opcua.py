@@ -2,6 +2,7 @@ import asyncio
 import threading
 
 from asyncua import Server
+from config import endpoint_opcua, namespace_opcua
 
 funcao_distancia = None
 servidor = None
@@ -27,8 +28,8 @@ async def servidor_opcua():
     servidor = Server()     # Cria o objeto servidor 
     await servidor.init()   # Inicializa o servidor
 
-    servidor.set_endpoint("opc.tcp://0.0.0.0:4840/ic/")             # Define o endereco do servidor
-    indice = await servidor.register_namespace("urn:gateway")       # Registra o namespace do servidor
+    servidor.set_endpoint(endpoint_opcua)             # Define o endereco do servidor
+    indice = await servidor.register_namespace(namespace_opcua)       # Registra o namespace do servidor
 
     objetos = servidor.nodes.objects # Pasta padrao de OPC-UA chamada "Objects"
 
