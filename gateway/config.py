@@ -9,7 +9,7 @@ topico_distancia = "ic/esp/distancia"
 
 # Parametros OPC-UA
 porta_opcua = 4840
-endpoint_opcua = "opc.tcp://0.0.0.0:4840/ic/"
+endpoint_opcua = "opc.tcp://192.168.15.147:4840/ic/"
 namespace_opcua = "urn:gateway"
 
 # Parametros CLP

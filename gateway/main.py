@@ -1,6 +1,6 @@
 import clp
 import mqtt
-# import opcua
+import opcua
 import time
 
 
@@ -18,8 +18,8 @@ def main():
     if (protocolo_ativo == "1"): 
         mqtt.iniciar(clp.escrever_distancia)
 
-    #elif (protocolo_ativo == "2"): 
-    #    opcua.iniciar(clp.escrever_distancia)
+    elif (protocolo_ativo == "2"): 
+       opcua.iniciar(clp.escrever_distancia)
 
     else: 
         print("Protocolo ativo invalido. Escolha MQTT ou OPC-UA.")

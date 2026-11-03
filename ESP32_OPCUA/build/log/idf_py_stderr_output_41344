@@ -1,0 +1,6 @@
+Command: /Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python /Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/main.elf /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader/bootloader.elf -m '/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python' '/Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/tools/idf.py' '-p' '/dev/cu.usbserial-0001'
+--- esp-idf-monitor 1.10.0 on /dev/cu.usbserial-0001 115200
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H
+--- 0x40080400: _invalid_pc_placeholder at /Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/components/xtensa/xtensa_vectors.S:2259
+--- 0x4008063c: call_start_cpu0 at /Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/components/bootloader/subproject/main/bootloader_start.c:27
+

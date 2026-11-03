@@ -1,0 +1,45 @@
+Command: ninja flash
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/esptool/__main__.py", line 9, in <module>
+    esptool._main()
+    ~~~~~~~~~~~~~^^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/esptool/__init__.py", line 1382, in _main
+    main()
+    ~~~~^^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/esptool/__init__.py", line 816, in main
+    esp = esp or get_default_connected_device(
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        ser_list,
+        ^^^^^^^^^
+    ...<5 lines>...
+        before=args.before,
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/esptool/__init__.py", line 1262, in get_default_connected_device
+    _esp = chip_class(each_port, initial_baud, trace)
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/esptool/loader.py", line 352, in __init__
+    self._port.open()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/serial/serialposix.py", line 332, in open
+    self._reconfigure_port(force_update=True)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/serial/serialposix.py", line 517, in _reconfigure_port
+    termios.tcsetattr(
+    ~~~~~~~~~~~~~~~~~^
+        self.fd,
+        ^^^^^^^^
+        termios.TCSANOW,
+        ^^^^^^^^^^^^^^^^
+        [iflag, oflag, cflag, lflag, ispeed, ospeed, cc])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (22, 'Invalid argument')
+CMake Error at run_serial_tool.cmake:67 (message):
+  
+  /Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python;;/Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/components/esptool_py/esptool/esptool.py;--chip;esp32
+  failed.
+
+
+

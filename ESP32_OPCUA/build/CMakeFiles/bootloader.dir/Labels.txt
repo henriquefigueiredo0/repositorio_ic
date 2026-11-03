@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/CMakeFiles/bootloader
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/CMakeFiles/bootloader.rule
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/CMakeFiles/bootloader-complete.rule
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
