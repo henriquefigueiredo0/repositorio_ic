@@ -1,0 +1,451 @@
+Command: /Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python /Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/main.elf /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader/bootloader.elf -m '/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python' '/Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/tools/idf.py' '-p' '/dev/cu.usbserial-0001' '-b' '115200'
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+746904) map
+ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET),boot:0x13 (S0x1 (POWERON_RESET)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6180
+load:0x40078000,len:15852
+load:0x40080400,len:3876
+entry 0x4008063c
+[0;32mI (27) boot: ESP-IDF v5.5.6 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Nov  3 2026 15:17:37[0m
+[0;32mI (28) boot: chip revision: v3.1[0m
+[0;32mI (29) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (32) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (36) boot.esp32: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Partition Table:[0m
+[0;32mI (42) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (48) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (55) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (61) boot:  2 factory          factory app      00 00 00010000 00177000[0m
+[0;32mI (68) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2df38h (188216) map[0m
+[0;32mI (140) esp_image: segment 1: paddr=0003df60 vaddr=3ffb0000 size=020b8h (  8376) load[0m
+[0;32mI (143) esp_image: segment 2: paddr=00040020 vaddr=400d0020 size=b6598h (746904) map[0m
+[0;32mI (399) esp_image: segment 3: paddr=000f65c0 vaddr=3ffb20b8 size=0f180h ( 61824) load[0m
+[0;32mI (422) esp_image: segment 4: paddr=00105748 vaddr=40080000 size=18f78h (102264) load[0m
+[0;32mI (462) esp_image: segment 5: paddr=0011e6c8 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (478) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (484) cpu_start: Multicore app[0m
+[0;32mI (492) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (493) cpu_start: Pro cpu start user code[0m
+[0;32mI (493) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (495) app_init: Application information:[0m
+[0;32mI (498) app_init: Project name:     main[0m
+[0;32mI (502) app_init: App version:      17375bf-dirty[0m
+[0;32mI (506) app_init: Compile time:     Nov  3 2026 17:21:48[0m
+[0;32mI (511) app_init: ELF file SHA256:  3234d6724...[0m
+[0;32mI (516) app_init: ESP-IDF:          v5.5.6[0m
+[0;32mI (520) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (523) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (527) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (531) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (538) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (543) heap_init: At 3FFC64B8 len 00019B48 (102 KiB): DRAM[0m
+[0;32mI (548) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (553) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (559) heap_init: At 40098F78 len 00007088 (28 KiB): IRAM[0m
+[0;33mW (565) spi_flash: Detected boya flash chip but using generic driver. For optimal functionality, enable `SPI_FLASH_SUPPORT_BOYA_CHIP` in menuconfig[0m
+[0;32mI (577) spi_flash: detected chip: generic[0m
+[0;32mI (581) spi_flash: flash io: dio[0m
+[0;32mI (585) main_task: Started on CPU0[0m
+[0;32mI (586) main_task: Calling app_main()[0m
+[0;32mI (616) main_task: ��Conectando ao Wi-FiI (625) wifi:wifi driver task: 3ffd0e9c, prio:23, stack:6656, core=0[0m
+[0;32mI (641) wifi:wifi firmware version: c6dceae[0m
+[0;32mI (641) wifi:wifi certification version: v7.0[0m
+[0;32mI (642) wifi:config NVS flash: enabled[0m
+[0;32mI (642) wifi:config nano formatting: disabled[0m
+[0;32mI (646) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (651) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (655) wifi:Init management short buffer num: 32[0m
+[0;32mI (659) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (663) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (667) wifi:Init static rx buffer num: 4[0m
+[0;32mI (671) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (676) wifi_init: rx ba win: 6[0m
+[0;32mI (677) wifi_init: accept mbox: 6[0m
+[0;32mI (680) wifi_init: tcpip mbox: 32[0m
+[0;32mI (683) wifi_init: udp mbox: 6[0m
+[0;32mI (686) wifi_init: tcp mbox: 6[0m
+[0;32mI (689) wifi_init: tcp tx win: 5760[0m
+[0;32mI (692) wifi_init: tcp rx win: 5760[0m
+[0;32mI (695) wifi_init: tcp mss: 1440[0m
+[0;32mI (698) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (702) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (710) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (793) wifi:mode : sta (f0:24:f9:0d:c3:b0)[0m
+[0;32mI (794) wifi:enable tsf[0m
+[0;32mI (798) wifi:Set ps type: 1, coexist: 0[0m
+
+[0;32mI (811) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (813) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (834) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (849) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (951) wifi:connected with Caverna_do_Dragao, aid = 6, channel 11, BW20, bssid = 84:0b:bb:a7:14:48[0m
+[0;32mI (952) wifi:security: WPA2-PSK, phy: bgn, rssi: -54, cipher(pairwise:0x3, group:0x3), pmf:0[0m
+[0;32mI (961) wifi:pm start, type: 1[0m
+
+[0;32mI (961) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (969) wifi:AP's beacon interval = 102400 us, DTIM period = 3[0m
+.I (1383) wifi:<ba-add>idx:0 (ifx:0, 84:0b:bb:a7:14:48), tid:0, ssn:2, winSize:64
+..I (2422) esp_netif_handlers: sta ip: 192.168.15.110, mask: 255.255.255.0, gw: 192.168.15.1
+.
+Wi-Fi conectado!
+IP da ESP: 192.168.15.110
+Conectando ao servidor OPC UA...
+[1970-01-01 00:00:02.220 (UTC+0000)] warn/eventloop	No function defined to initialize the network interface.Initialization must be performed externally
+[1970-01-01 00:00:02.239 (UTC+0000)] info/network	TCP 54	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:00:02.321 (UTC+0000)] warn/channel	TCP 54	| SC 6	| The "CreatedAt" timestamp of the received ChannelSecurityToken does not match with the local system clock
+[1970-01-01 00:00:02.326 (UTC+0000)] info/channel	TCP 54	| SC 6	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[1970-01-01 00:00:02.349 (UTC+0000)] info/client	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[1970-01-01 00:00:02.362 (UTC+0000)] info/client	The initially defined EndpointURL opc.tcp://192.168.15.147:4840/ic/ is valid for the server
+[1970-01-01 00:00:02.390 (UTC+0000)] info/client	Endpoint 0: Best endpoint so far with UserTokenPolicy anonymous
+[1970-01-01 00:00:02.391 (UTC+0000)] info/client	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy anonymous
+[1970-01-01 00:00:02.406 (UTC+0000)] info/client	CreateSession: Using UserTokenPolicy anonymous
+[1970-01-01 00:00:02.440 (UTC+0000)] info/client	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[1970-01-01 00:00:02.441 (UTC+0000)] info/client	ActivateSession: Using UserTokenPolicy anonymous
+[1970-01-01 00:00:02.471 (UTC+0000)] info/client	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+Conectado ao servidor OPC UA!
+
+Distancia: 42.86 cm
+Distancia enviada via OPC UA: 42.86 cm
+Distancia: 46.29 cm
+Distancia enviada via OPC UA: 46.29 cm
+Distancia: 42.86 cm
+Distancia enviada via OPC UA: 42.86 cm
+Distancia: 46.29 cm
+Distancia enviada via OPC UA: 46.29 cm
+Distancia: 46.29 cm
+Distancia enviada via OPC UA: 46.29 cm
+Distancia: 42.86 cm
+Distancia enviada via OPC UA: 42.86 cm
+Distancia: 42.86 cm
+Distancia enviada via OPC UA: 42.86 cm
+Distancia: 42.86 cm
+Distancia enviada via OPC UA: 42.86 cm
+Distancia: 46.29 cm
+Distancia enviada via OPC UA: 46.29 cm
+Distancia: 56.47 cm
+Distancia enviada via OPC UA: 56.47 cm
+Distancia: 59.60 cm
+Distancia enviada via OPC UA: 59.60 cm
+Distancia: 22.47 cm
+Distancia enviada via OPC UA: 22.47 cm
+Distancia: 57.47 cm
+Distancia enviada via OPC UA: 57.47 cm
+Distancia: 57.06 cm
+Distancia enviada via OPC UA: 57.06 cm
+Distancia: 57.04 cm
+Distancia enviada via OPC UA: 57.04 cm
+Distancia: 20.85 cm
+Distancia enviada via OPC UA: 20.85 cm
+Distancia: 17.01 cm
+Distancia enviada via OPC UA: 17.01 cm
+Distancia: 16.05 cm
+Distancia enviada via OPC UA: 16.05 cm
+Distancia: 14.34 cm
+Distancia enviada via OPC UA: 14.34 cm
+Distancia: 13.65 cm
+Distancia enviada via OPC UA: 13.65 cm
+Distancia: 10.24 cm
+Distancia enviada via OPC UA: 10.24 cm
+Distancia: 5.90 cm
+Distancia enviada via OPC UA: 5.90 cm
+Distancia: 5.90 cm
+Distancia enviada via OPC UA: 5.90 cm
+Distancia: 5.90 cm
+Distancia enviada via OPC UA: 5.90 cm
+Distancia: 5.90 cm
+Distancia enviada via OPC UA: 5.90 cm
+Distancia: 5.90 cm
+Distancia enviada via OPC UA: 5.90 cm
+Distancia: 5.90 cm
+Distancia enviada via OPC UA: 5.90 cm
+Distancia: 17.01 cm
+Distancia enviada via OPC UA: 17.01 cm
+Distancia: 14.68 cm
+Distancia enviada via OPC UA: 14.68 cm
+Distancia: 14.68 cm
+Distancia enviada via OPC UA: 14.68 cm
+Distancia: 16.05 cm
+Distancia enviada via OPC UA: 16.05 cm
+Distancia: 15.73 cm
+Distancia enviada via OPC UA: 15.73 cm
+Distancia: 9.55 cm
+Distancia enviada via OPC UA: 9.55 cm
+Distancia: 6.23 cm
+Distancia enviada via OPC UA: 6.23 cm
+Distancia: 6.23 cm
+Distancia enviada via OPC UA: 6.23 cm
+Distancia: 8.18 cm
+Distancia enviada via OPC UA: 8.18 cm
+Distancia: 48.50 cm
+Distancia enviada via OPC UA: 48.50 cm
+Distancia: 41.95 cm
+Distancia enviada via OPC UA: 41.95 cm
+Distancia: 46.68 cm
+Distancia enviada via OPC UA: 46.68 cm
+Distancia: 46.68 cm
+Distancia enviada via OPC UA: 46.68 cm
+Distancia: 46.70 cm
+Distancia enviada via OPC UA: 46.70 cm
+Distancia: 46.70 cm
+Distancia enviada via OPC UA: 46.70 cm
+Distancia: 46.68 cm
+Distancia enviada via OPC UA: 46.68 cm
+Distancia: 46.70 cm
+Distancia enviada via OPC UA: 46.70 cm
+Distancia: 46.68 cm
+Distancia enviada via OPC UA: 46.68 cm
+Distancia: 46.68 cm
+Distancia enviada via OPC UA: 46.68 cm
+Distancia: 46.68 cm
+Distancia enviada via OPC UA: 46.68 cm
+Distancia: 46.70 cm
+Distancia enviada via OPC UA: 46.70 cm
+Distancia: 46.68 cm
+Distancia enviada via OPC UA: 46.68 cm
+Distancia: 46.70 cm
+Distancia enviada via OPC UA: 46.70 cm
+Distancia: 46.68 cm
+Distancia enviada via OPC UA: 46.68 cm
+Distancia: 46.29 cm
+Distancia enviada via OPC UA: 46.29 cm
+Distancia: 42.39 cm
+Distancia enviada via OPC UA: 42.39 cm
+Distancia: 46.70 cm
+Distancia enviada via OPC UA: 46.70 cm
+Distancia: 46.68 cm
+Distancia enviada via OPC UA: 46.68 cm
+Distancia: 47.08 cm
+Distancia enviada via OPC UA: 47.08 cm
+Distancia: 47.09 cm
+Distancia enviada via OPC UA: 47.09 cm
+Distancia: 49.31 cm
+Distancia enviada via OPC UA: 49.31 cm
+Distancia: 49.31 cm
+Distancia enviada via OPC UA: 49.31 cm
+Distancia: 46.70 cm
+Distancia enviada via OPC UA: 46.70 cm
+Distancia: 49.31 cm
+Distancia enviada via OPC UA: 49.31 cm
+Distancia: 47.09 cm
+Distancia enviada via OPC UA: 47.09 cm
+Distancia: 49.31 cm
+Distancia enviada via OPC UA: 49.31 cm
+Distancia: 41.95 cm
+Distancia enviada via OPC UA: 41.95 cm
+Distancia: 42.88 cm
+Distancia enviada via OPC UA: 42.88 cm
+Distancia: 46.70 cm
+Distancia enviada via OPC UA: 46.70 cm
+Distancia: 59.60 cm
+Distancia enviada via OPC UA: 59.60 cm
+Distancia: 42.43 cm
+Distancia enviada via OPC UA: 42.43 cm
+Distancia: 42.86 cm
+Distancia enviada via OPC UA: 42.86 cm
+Distancia: 42.88 cm
+Distancia enviada via OPC UA: 42.88 cm
+Distancia: 42.39 cm
+Distancia enviada via OPC UA: 42.39 cm
+Distancia: 42.88 cm
+Distancia enviada via OPC UA: 42.88 cm
+Distancia: 47.09 cm
+Distancia enviada via OPC UA: 47.09 cm

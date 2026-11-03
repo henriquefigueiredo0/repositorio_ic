@@ -9,6 +9,10 @@ import time
 def main():
 
     protocolo_ativo = input("Pressione 1 para MQTT ou 2 para OPC-UA: ")
+
+    if protocolo_ativo not in ("1", "2"):
+        print("Protocolo ativo invalido.")
+        return
                             
     # Conecta ao CLP
     if not clp.conectar():

@@ -10,9 +10,10 @@ Protocolos protocoloAtivo = OPCUA;  // Define qual protocolo vai ser usado
 const char* ssid = "Caverna_do_Dragao";
 const char* senha = "xupafederal";
 
-// IP da TV Box onde está rodando o Mosquitto
-const char* broker = "192.168.0.123";
+// IP da TV Box onde está rodando o Mosquitto e o servidor OPC UA
+const char* broker = "192.168.15.147";
 const int porta_mqtt = 1883;
+const char* endpoint_opcua = "opc.tcp://192.168.15.147:4840/ic/";
 
 // Topico em que a ESP vai publicar a distancia
 const char* topico_distancia = "ic/esp/distancia";
@@ -20,6 +21,17 @@ const char* topico_distancia = "ic/esp/distancia";
 // Cria os objetos de Wi-Fi e MQTT
 WiFiClient wifiClient;
 PubSubClient mqtt(wifiClient);
+
+// Cria o cliente OPC UA
+UA_Client* clienteOPCUA = nullptr;
+bool opcuaConectado = false;
+
+// Identifica a variavel Distancia no servidor OPC UA
+UA_NodeId nodeIdDistancia = UA_NODEID_NUMERIC(2, 2);
+
+// Guarda o momento da ultima tentativa de conexao OPC UA
+unsigned long ultimaTentativaOPCUA = 0;
+const unsigned long intervaloReconexaoOPCUA = 2000;
 
 // Sensor ultrassonico
 const int trigPin = 5;
@@ -103,48 +115,77 @@ void enviarMQTT(float distancia) {
   mqtt.publish(topico_distancia, mensagemDistancia);
 }
 
-void testarOPCUA() {
-    Serial.println("Iniciando teste OPC UA...");
+// Funcao que conecta a ESP no servidor OPC UA da TV Box
+void conectarOPCUA() {
 
-    UA_Client *cliente = UA_Client_new();
+  // Verifica se a ESP está conectada ao Wi-Fi
+  if (WiFi.status() != WL_CONNECTED) {
+    return;
+  }
 
-    if (cliente == nullptr) {
-        Serial.println("Erro ao criar cliente OPC UA");
-        return;
-    }
+  // Guarda o momento da tentativa de conexao
+  ultimaTentativaOPCUA = millis();
 
-    UA_StatusCode status = UA_Client_connect(
-        cliente,
-        "opc.tcp://192.168.15.147:4840/ic/"
-    );
+  Serial.println("Conectando ao servidor OPC UA...");
 
-    if (status != UA_STATUSCODE_GOOD) {
-        Serial.printf("Erro de conexao OPC UA: 0x%08lX\n",
-                      (unsigned long)status);
-        UA_Client_delete(cliente);
-        return;
-    }
+  // Remove o cliente anterior, caso exista
+  if (clienteOPCUA != nullptr) {
+    UA_Client_delete(clienteOPCUA);
+    clienteOPCUA = nullptr;
+  }
 
+  opcuaConectado = false;
+
+  // Cria um novo cliente OPC UA
+  clienteOPCUA = UA_Client_new();
+
+  if (clienteOPCUA == nullptr) {
+    Serial.println("Erro ao criar cliente OPC UA");
+    return;
+  }
+
+  // Tenta conectar ao servidor OPC UA
+  UA_StatusCode status = UA_Client_connect(clienteOPCUA, endpoint_opcua);
+
+  if (status == UA_STATUSCODE_GOOD) {
+    opcuaConectado = true;
     Serial.println("Conectado ao servidor OPC UA!");
+  }
 
-    UA_Double valor = 42.5;
-    UA_NodeId nodeId = UA_NODEID_NUMERIC(2, 2);
+  else {
+    Serial.printf("Erro de conexao OPC UA: 0x%08lX\n", (unsigned long)status);
+    UA_Client_delete(clienteOPCUA);
+    clienteOPCUA = nullptr;
+  }
+}
 
-    status = UA_Client_writeValueAttribute_scalar(
-        cliente,
-        nodeId,
-        &valor,
-        &UA_TYPES[UA_TYPES_DOUBLE]
-    );
+// Envia a distancia para a variavel Distancia do servidor OPC UA
+void enviarOPCUA(float distancia) {
 
-    if (status == UA_STATUSCODE_GOOD) {
-        Serial.println("Valor 42.5 enviado via OPC UA!");
-    } else {
-        Serial.printf("Erro na escrita: 0x%08lX\n",
-                      (unsigned long)status);
-    }
+  // Verifica se o cliente OPC UA está conectado
+  if (!opcuaConectado || clienteOPCUA == nullptr) {
+    return;
+  }
 
-    UA_Client_delete(cliente);
+  // Converte a distancia para o tipo Double do OPC UA
+  UA_Double valor = (UA_Double)distancia;
+
+  // Escreve a distancia no nó do servidor OPC UA
+  UA_StatusCode status = UA_Client_writeValueAttribute_scalar(clienteOPCUA, nodeIdDistancia, &valor, &UA_TYPES[UA_TYPES_DOUBLE]);
+
+  if (status == UA_STATUSCODE_GOOD) {
+    Serial.printf("Distancia enviada via OPC UA: %.2f cm\n", distancia);
+  }
+
+  else {
+    Serial.printf("Erro ao enviar OPC UA: 0x%08lX\n", (unsigned long)status);
+
+    // Marca a conexao como perdida para tentar novamente
+    opcuaConectado = false;
+    UA_Client_delete(clienteOPCUA);
+    clienteOPCUA = nullptr;
+    ultimaTentativaOPCUA = millis();
+  }
 }
 
 void setup() {
@@ -160,9 +201,11 @@ void setup() {
   if (protocoloAtivo == MQTT) {
     mqtt.setServer(broker, porta_mqtt);
   }
+
+  // Conecta ao servidor OPC UA caso esse protocolo esteja ativo
   if (protocoloAtivo == OPCUA) {
-    testarOPCUA();
-}
+    conectarOPCUA();
+  }
 
   Serial.println();
 }
@@ -179,6 +222,30 @@ void loop() {
 
     // Mantem a comunicacao em segundo plano
     mqtt.loop();
+  }
+
+  // Mantem a comunicacao OPC UA somente quando o protocolo OPC UA estiver ativo
+  else if (protocoloAtivo == OPCUA) {
+
+    // Tenta reconectar caso a conexao OPC UA tenha sido perdida
+    if (!opcuaConectado) {
+      if (millis() - ultimaTentativaOPCUA >= intervaloReconexaoOPCUA) {
+        conectarOPCUA();
+      }
+    }
+
+    // Mantem o cliente OPC UA em funcionamento
+    else if (clienteOPCUA != nullptr) {
+      UA_StatusCode status = UA_Client_run_iterate(clienteOPCUA, 0);
+
+      if (status != UA_STATUSCODE_GOOD) {
+        Serial.printf("Erro na comunicacao OPC UA: 0x%08lX\n", (unsigned long)status);
+        opcuaConectado = false;
+        UA_Client_delete(clienteOPCUA);
+        clienteOPCUA = nullptr;
+        ultimaTentativaOPCUA = millis();
+      }
+    }
   }
 
   // Realiza uma medicao a cada 300 ms
@@ -201,7 +268,7 @@ void loop() {
 
       // Caso o protocolo seja OPC UA
       else if (protocoloAtivo == OPCUA) {
-        // enviarOPCUA(distancia);
+        enviarOPCUA(distancia);
       }
     }
 
