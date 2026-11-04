@@ -54,6 +54,8 @@ async function iniciarGateway() {
     if (resultado.sucesso) {
         botaoIniciar.disabled = true;
         botaoParar.disabled = false;
+
+        bloquearConfiguracoes(true);
     }
 }
 
@@ -75,8 +77,13 @@ async function pararGateway() {
     if (resultado.sucesso) {
         botaoIniciar.disabled = false;
         botaoParar.disabled = true;
+
+        bloquearConfiguracoes(false);
     }
 }
+
+// Executa a funcao quando o botao for clicado
+botaoIniciar.addEventListener("click", iniciarGateway);
 
 // Executa a parada quando o botao for clicado
 botaoParar.addEventListener("click", pararGateway);
@@ -84,5 +91,10 @@ botaoParar.addEventListener("click", pararGateway);
 // O gateway inicia parado
 botaoParar.disabled = true;
 
-// Executa a funcao quando o botao for clicado
-botaoIniciar.addEventListener("click", iniciarGateway);
+// Bloqueia ou libera os campos de configuracao
+function bloquearConfiguracoes(bloquear) {
+    protocolo.disabled = bloquear;
+    porta.disabled = bloquear;
+    parametro.disabled = bloquear;
+    document.getElementById("ip-clp").disabled = bloquear;
+}
