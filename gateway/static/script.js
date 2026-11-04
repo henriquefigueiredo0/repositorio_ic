@@ -49,7 +49,40 @@ async function iniciarGateway() {
     const resultado = await resposta.json();
 
     alert(resultado.mensagem);
+
+    // Atualiza os botoes somente se o comando funcionou
+    if (resultado.sucesso) {
+        botaoIniciar.disabled = true;
+        botaoParar.disabled = false;
+    }
 }
+
+// Seleciona o botao Parar
+const botaoParar = document.getElementById("parar");
+
+// Envia o comando de parada ao Flask
+async function pararGateway() {
+
+    const resposta = await fetch("/parar", {
+        method: "POST"
+    });
+
+    const resultado = await resposta.json();
+
+    alert(resultado.mensagem);
+
+    // Atualiza os botoes depois da parada
+    if (resultado.sucesso) {
+        botaoIniciar.disabled = false;
+        botaoParar.disabled = true;
+    }
+}
+
+// Executa a parada quando o botao for clicado
+botaoParar.addEventListener("click", pararGateway);
+
+// O gateway inicia parado
+botaoParar.disabled = true;
 
 // Executa a funcao quando o botao for clicado
 botaoIniciar.addEventListener("click", iniciarGateway);

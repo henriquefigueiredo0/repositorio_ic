@@ -84,3 +84,9 @@ button {
         grid-template-columns: 1fr;
     }
 }
+
+/* Diferencia botoes desabilitados */
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
