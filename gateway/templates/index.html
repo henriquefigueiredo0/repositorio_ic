@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gateway Industrial</title>
+
+    <!-- Carrega o arquivo CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <h1>Gateway Industrial</h1>
+
+    <!-- Area principal com dois paineis -->
+    <main class="paineis">
+
+        <!-- Painel da ESP32 -->
+        <section class="painel">
+            <h2>ESP32</h2>
+
+            <p>Status: Desconectada</p>
+
+            <label for="protocolo">Protocolo</label>
+            <select id="protocolo">
+                <option value="MQTT">MQTT</option>
+                <option value="OPCUA">OPC UA</option>
+            </select>
+
+            <label for="porta">Porta</label>
+            <input id="porta" type="number" value="1883">
+
+            <label for="parametro">Topico MQTT</label>
+            <input id="parametro" type="text" value="ic/esp/distancia">
+
+            <h3>Distancia medida</h3>
+            <p class="valor">-- cm</p>
+        </section>
+
+        <!-- Painel do CLP -->
+        <section class="painel">
+            <h2>CLP</h2>
+
+            <p>Status: Desconectado</p>
+
+            <label for="ip-clp">Endereco IP</label>
+            <input id="ip-clp" type="text" value="192.168.0.1">
+
+            <h3>Estado da bomba</h3>
+            <p class="valor">--</p>
+        </section>
+
+    </main>
+
+    <!-- Controles gerais do gateway -->
+    <div class="controles">
+        <button type="button" id="iniciar">Iniciar</button>
+        <button type="button" id="parar">Parar</button>
+    </div>
+
+</body>
+</html>
