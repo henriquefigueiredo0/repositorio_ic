@@ -31,10 +31,11 @@
                 <option value="OPCUA">OPC UA</option>
             </select>
 
+            <!-- Configuracoes do protocolo selecionado -->
             <label for="porta">Porta</label>
             <input id="porta" type="number" value="1883">
 
-            <label for="parametro">Topico MQTT</label>
+            <label for="parametro" id="label-parametro">Topico MQTT</label>
             <input id="parametro" type="text" value="ic/esp/distancia">
 
             <h3>Distancia medida</h3>
@@ -61,6 +62,9 @@
         <button type="button" id="iniciar">Iniciar</button>
         <button type="button" id="parar">Parar</button>
     </div>
+
+    <!-- Carrega o JavaScript da interface -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 </html>
