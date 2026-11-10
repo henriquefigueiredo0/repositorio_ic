@@ -1,4 +1,4 @@
 {
     "idf.currentSetup": "/Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf",
-    "cmake.sourceDirectory": "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA"
+    "cmake.sourceDirectory": "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/managed_components/espressif__esp-dsp"
 }

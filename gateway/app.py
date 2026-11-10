@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, jsonify
 
-import main_teste
+import main
 from config import porta_mqtt, porta_opcua
 from config import topico_distancia, namespace_opcua
 
@@ -19,7 +19,7 @@ def pagina_inicial():
 # Consulta o estado do gateway
 @app.route("/estado", methods=["GET"])
 def consultar_estado():
-    return jsonify(main_teste.obter_estado())
+    return jsonify(main.obter_estado())
 
 
 # Inicia a comunicacao
@@ -64,7 +64,7 @@ def iniciar():
         }), 400
 
     # Inicia o gateway e comanda a ESP32
-    sucesso = main_teste.iniciar_gateway(protocolo)
+    sucesso = main.iniciar_gateway(protocolo)
 
     if not sucesso:
         return jsonify({
@@ -82,7 +82,7 @@ def iniciar():
 @app.route("/parar", methods=["POST"])
 def parar():
 
-    sucesso = main_teste.parar_gateway()
+    sucesso = main.parar_gateway()
 
     if not sucesso:
         return jsonify({

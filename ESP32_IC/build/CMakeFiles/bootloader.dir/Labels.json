@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/CMakeFiles/bootloader"
+		},
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/CMakeFiles/bootloader.rule"
+		},
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/CMakeFiles/bootloader-complete.rule"
+		},
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+		},
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+		},
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+		},
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+		},
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+		},
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+		},
+		{
+			"file" : "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"bootloader"
+		],
+		"name" : "bootloader"
+	}
+}
