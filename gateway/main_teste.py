@@ -1,5 +1,6 @@
 
 import threading
+import time
 
 import mqtt
 import opcua
@@ -10,13 +11,36 @@ import controle_esp
 protocolo_ativo = None
 gateway_ativo = False
 
+# Guarda a ultima medicao
+ultima_distancia = None
+instante_ultima_distancia = None
+
 # Impede operacoes simultaneas
 controle = threading.Lock()
+controle_dados = threading.Lock()
+
+# Tempo maximo sem receber dados
+TEMPO_LIMITE = 2.5
 
 
 # Recebe a distancia sem utilizar o CLP
 def receber_distancia(distancia):
+    global ultima_distancia, instante_ultima_distancia
+
+    with controle_dados:
+        ultima_distancia = float(distancia)
+        instante_ultima_distancia = time.monotonic()
+
     print(f"Distancia recebida: {distancia:.2f} cm")
+
+
+# Limpa a ultima medicao
+def limpar_distancia():
+    global ultima_distancia, instante_ultima_distancia
+
+    with controle_dados:
+        ultima_distancia = None
+        instante_ultima_distancia = None
 
 
 # Inicia o protocolo selecionado
@@ -33,7 +57,9 @@ def iniciar_gateway(protocolo):
             print("Protocolo invalido.")
             return False
 
-        # Prepara o receptor na TV Box
+        limpar_distancia()
+
+        # Inicia o receptor na TV Box
         try:
             if protocolo == "MQTT":
                 mqtt.iniciar(receber_distancia)
@@ -43,7 +69,6 @@ def iniciar_gateway(protocolo):
         except Exception as erro:
             print("Erro ao iniciar receptor:", erro)
 
-            # Tenta limpar uma inicializacao parcial
             try:
                 if protocolo == "MQTT":
                     mqtt.parar()
@@ -52,16 +77,16 @@ def iniciar_gateway(protocolo):
             except Exception as erro_limpeza:
                 print("Erro na limpeza:", erro_limpeza)
 
+            limpar_distancia()
             return False
 
-        # Envia o comando para a ESP32
+        # Solicita a transmissao pela ESP32
         try:
             controle_esp.enviar_comando(protocolo)
 
         except Exception as erro:
             print("Erro ao comandar ESP32:", erro)
 
-            # Desfaz a inicializacao do receptor
             try:
                 if protocolo == "MQTT":
                     mqtt.parar()
@@ -70,6 +95,7 @@ def iniciar_gateway(protocolo):
             except Exception as erro_limpeza:
                 print("Erro na limpeza:", erro_limpeza)
 
+            limpar_distancia()
             return False
 
         protocolo_ativo = protocolo
@@ -89,7 +115,7 @@ def parar_gateway():
             print("Gateway ja esta parado.")
             return False
 
-        # Solicita que a ESP32 pare de transmitir
+        # Solicita a parada da ESP32
         try:
             controle_esp.enviar_comando("PARAR")
 
@@ -97,11 +123,10 @@ def parar_gateway():
             print("Erro ao enviar PARAR:", erro)
             return False
 
-        # Encerra o receptor na TV Box
+        # Encerra o receptor
         try:
             if protocolo_ativo == "MQTT":
                 mqtt.parar()
-
             elif protocolo_ativo == "OPCUA":
                 opcua.parar()
 
@@ -111,6 +136,7 @@ def parar_gateway():
 
         gateway_ativo = False
         protocolo_ativo = None
+        limpar_distancia()
 
         print("Gateway parado.")
         return True
@@ -120,10 +146,38 @@ def parar_gateway():
 def obter_estado():
 
     with controle:
-        return {
-            "ativo": gateway_ativo,
-            "protocolo": protocolo_ativo
-        }
+        ativo = gateway_ativo
+        protocolo = protocolo_ativo
+
+        with controle_dados:
+            distancia = ultima_distancia
+            instante = instante_ultima_distancia
+
+    # Verifica se a medicao e recente
+    if instante is None:
+        recente = False
+    else:
+        recente = (time.monotonic() - instante) <= TEMPO_LIMITE
+
+    if not ativo:
+        status_esp = "Parada"
+        distancia = None
+
+    elif recente:
+        status_esp = "Recebendo dados"
+
+    else:
+        status_esp = "Aguardando dados"
+        distancia = None
+
+    return {
+        "ativo": ativo,
+        "protocolo": protocolo,
+        "status_esp": status_esp,
+        "distancia": distancia,
+        "status_clp": "Nao monitorado",
+        "estado_bomba": None
+    }
 
 
 if __name__ == "__main__":

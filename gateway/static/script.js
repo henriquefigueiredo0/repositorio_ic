@@ -1,10 +1,24 @@
-// Seleciona os elementos da pagina
+
+// Seleciona os elementos
 const protocolo = document.getElementById("protocolo");
 const porta = document.getElementById("porta");
 const parametro = document.getElementById("parametro");
 const labelParametro = document.getElementById("label-parametro");
 
-// Atualiza os campos conforme o protocolo escolhido
+const botaoIniciar = document.getElementById("iniciar");
+const botaoParar = document.getElementById("parar");
+
+const statusEsp = document.getElementById("status-esp");
+const statusClp = document.getElementById("status-clp");
+const distancia = document.getElementById("distancia");
+const estadoBomba = document.getElementById("estado-bomba");
+const ipClp = document.getElementById("ip-clp");
+
+let operacaoEmAndamento = false;
+let consultaEmAndamento = false;
+
+
+// Atualiza os campos do protocolo
 function atualizarProtocolo() {
 
     if (protocolo.value === "MQTT") {
@@ -20,81 +34,177 @@ function atualizarProtocolo() {
     }
 }
 
-// Executa a funcao quando o protocolo muda
-protocolo.addEventListener("change", atualizarProtocolo);
 
-// Seleciona o botao Iniciar
-const botaoIniciar = document.getElementById("iniciar");
+// Bloqueia os campos de configuracao
+function bloquearConfiguracoes(bloquear) {
+    protocolo.disabled = bloquear;
+    porta.disabled = bloquear;
+    parametro.disabled = bloquear;
+    ipClp.disabled = bloquear;
+}
 
-// Envia as configuracoes ao Flask
+
+// Atualiza os dados da pagina
+function mostrarEstado(estado) {
+
+    // Recupera o protocolo ativo
+    if (estado.ativo && estado.protocolo) {
+        if (protocolo.value !== estado.protocolo) {
+            protocolo.value = estado.protocolo;
+            atualizarProtocolo();
+        }
+    }
+
+    statusEsp.textContent = estado.status_esp;
+    statusClp.textContent = estado.status_clp;
+
+    // Exibe apenas medicoes recentes
+    if (estado.distancia === null) {
+        distancia.textContent = "-- cm";
+    } else {
+        distancia.textContent =
+            Number(estado.distancia).toFixed(2) + " cm";
+    }
+
+    // Ainda nao temos leitura do CLP
+    if (estado.estado_bomba === null) {
+        estadoBomba.textContent = "--";
+    } else {
+        estadoBomba.textContent = String(estado.estado_bomba);
+    }
+
+    if (!operacaoEmAndamento) {
+        botaoIniciar.disabled = estado.ativo;
+        botaoParar.disabled = !estado.ativo;
+        bloquearConfiguracoes(estado.ativo);
+    }
+}
+
+
+// Consulta o estado do Flask
+async function consultarEstado() {
+
+    if (consultaEmAndamento || operacaoEmAndamento) {
+        return;
+    }
+
+    consultaEmAndamento = true;
+
+    try {
+        const resposta = await fetch("/estado", {
+            cache: "no-store"
+        });
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao consultar o gateway.");
+        }
+
+        const estado = await resposta.json();
+        mostrarEstado(estado);
+
+    } catch (erro) {
+        console.error("Erro de monitoramento:", erro);
+
+        statusEsp.textContent = "Servidor indisponivel";
+        statusClp.textContent = "Nao monitorado";
+        distancia.textContent = "-- cm";
+        estadoBomba.textContent = "--";
+
+        // Evita comandos com estado desconhecido
+        botaoIniciar.disabled = true;
+        botaoParar.disabled = true;
+        bloquearConfiguracoes(true);
+
+    } finally {
+        consultaEmAndamento = false;
+    }
+}
+
+
+// Inicia o gateway
 async function iniciarGateway() {
+
+    if (operacaoEmAndamento) {
+        return;
+    }
+
+    operacaoEmAndamento = true;
+    botaoIniciar.disabled = true;
+    botaoParar.disabled = true;
 
     const configuracao = {
         protocolo: protocolo.value,
         porta: Number(porta.value),
         parametro: parametro.value,
-        ip_clp: document.getElementById("ip-clp").value
+        ip_clp: ipClp.value
     };
 
-    // Envia uma requisicao POST
-    const resposta = await fetch("/iniciar", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(configuracao)
-    });
+    try {
+        const resposta = await fetch("/iniciar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(configuracao)
+        });
 
-    // Le a resposta do servidor
-    const resultado = await resposta.json();
+        const resultado = await resposta.json();
+        alert(resultado.mensagem);
 
-    alert(resultado.mensagem);
+    } catch (erro) {
+        console.error("Erro ao iniciar:", erro);
+        alert("Nao foi possivel comunicar com o Flask.");
 
-    // Atualiza os botoes somente se o comando funcionou
-    if (resultado.sucesso) {
-        botaoIniciar.disabled = true;
-        botaoParar.disabled = false;
-
-        bloquearConfiguracoes(true);
+    } finally {
+        operacaoEmAndamento = false;
+        await consultarEstado();
     }
 }
 
-// Seleciona o botao Parar
-const botaoParar = document.getElementById("parar");
 
-// Envia o comando de parada ao Flask
+// Para o gateway
 async function pararGateway() {
 
-    const resposta = await fetch("/parar", {
-        method: "POST"
-    });
+    if (operacaoEmAndamento) {
+        return;
+    }
 
-    const resultado = await resposta.json();
+    operacaoEmAndamento = true;
+    botaoIniciar.disabled = true;
+    botaoParar.disabled = true;
 
-    alert(resultado.mensagem);
+    try {
+        const resposta = await fetch("/parar", {
+            method: "POST"
+        });
 
-    // Atualiza os botoes depois da parada
-    if (resultado.sucesso) {
-        botaoIniciar.disabled = false;
-        botaoParar.disabled = true;
+        const resultado = await resposta.json();
+        alert(resultado.mensagem);
 
-        bloquearConfiguracoes(false);
+    } catch (erro) {
+        console.error("Erro ao parar:", erro);
+        alert("Nao foi possivel comunicar com o Flask.");
+
+    } finally {
+        operacaoEmAndamento = false;
+        await consultarEstado();
     }
 }
 
-// Executa a funcao quando o botao for clicado
-botaoIniciar.addEventListener("click", iniciarGateway);
 
-// Executa a parada quando o botao for clicado
+// Configura os botoes
+protocolo.addEventListener("change", atualizarProtocolo);
+botaoIniciar.addEventListener("click", iniciarGateway);
 botaoParar.addEventListener("click", pararGateway);
 
-// O gateway inicia parado
-botaoParar.disabled = true;
 
-// Bloqueia ou libera os campos de configuracao
-function bloquearConfiguracoes(bloquear) {
-    protocolo.disabled = bloquear;
-    porta.disabled = bloquear;
-    parametro.disabled = bloquear;
-    document.getElementById("ip-clp").disabled = bloquear;
-}
+// Consulta o estado ao abrir a pagina
+botaoIniciar.disabled = true;
+botaoParar.disabled = true;
+bloquearConfiguracoes(true);
+
+consultarEstado();
+
+
+// Atualiza a interface a cada segundo
+setInterval(consultarEstado, 1000);

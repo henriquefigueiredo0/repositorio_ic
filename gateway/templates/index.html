@@ -8,7 +8,7 @@
 
     <title>Gateway Industrial</title>
 
-    <!-- Carrega o arquivo CSS -->
+    <!-- Carrega o CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -16,14 +16,14 @@
 
     <h1>Gateway Industrial</h1>
 
-    <!-- Area principal com dois paineis -->
+    <!-- Area principal -->
     <main class="paineis">
 
         <!-- Painel da ESP32 -->
         <section class="painel">
             <h2>ESP32</h2>
 
-            <p>Status: Desconectada</p>
+            <p>Status: <span id="status-esp">Parada</span></p>
 
             <label for="protocolo">Protocolo</label>
             <select id="protocolo">
@@ -31,39 +31,40 @@
                 <option value="OPCUA">OPC UA</option>
             </select>
 
-            <!-- Configuracoes do protocolo selecionado -->
             <label for="porta">Porta</label>
             <input id="porta" type="number" value="1883">
 
-            <label for="parametro" id="label-parametro">Topico MQTT</label>
+            <label for="parametro" id="label-parametro">
+                Topico MQTT
+            </label>
             <input id="parametro" type="text" value="ic/esp/distancia">
 
             <h3>Distancia medida</h3>
-            <p class="valor">-- cm</p>
+            <p class="valor" id="distancia">-- cm</p>
         </section>
 
         <!-- Painel do CLP -->
         <section class="painel">
             <h2>CLP</h2>
 
-            <p>Status: Desconectado</p>
+            <p>Status: <span id="status-clp">Nao monitorado</span></p>
 
             <label for="ip-clp">Endereco IP</label>
             <input id="ip-clp" type="text" value="192.168.0.1">
 
             <h3>Estado da bomba</h3>
-            <p class="valor">--</p>
+            <p class="valor" id="estado-bomba">--</p>
         </section>
 
     </main>
 
-    <!-- Controles gerais do gateway -->
+    <!-- Controles gerais -->
     <div class="controles">
         <button type="button" id="iniciar">Iniciar</button>
-        <button type="button" id="parar">Parar</button>
+        <button type="button" id="parar" disabled>Parar</button>
     </div>
 
-    <!-- Carrega o JavaScript da interface -->
+    <!-- Carrega o JavaScript -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
