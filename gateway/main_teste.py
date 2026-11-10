@@ -1,83 +1,92 @@
 
+import threading
+
 import mqtt
 import opcua
 
-# Guarda o protocolo selecionado
-protocolo_ativo = None
 
-# Indica se o gateway esta ativo
+# Guarda o estado do gateway
+protocolo_ativo = None
 gateway_ativo = False
 
-# Define se o CLP sera utilizado
-usar_clp = False
+# Impede operacoes simultaneas
+controle = threading.Lock()
 
 
-# Recebe a distancia sem precisar do CLP
+# Recebe a distancia sem utilizar o CLP
 def receber_distancia(distancia):
     print(f"Distancia recebida: {distancia:.2f} cm")
 
 
-# Inicia o gateway com o protocolo escolhido
+# Inicia o protocolo selecionado
 def iniciar_gateway(protocolo):
     global protocolo_ativo, gateway_ativo
 
-    # Impede iniciar duas vezes
-    if gateway_ativo:
-        print("Gateway ja esta ativo.")
-        return False
+    with controle:
 
-    # Verifica se o protocolo e valido
-    if protocolo not in ("MQTT", "OPCUA"):
-        print("Protocolo invalido.")
-        return False
+        if gateway_ativo:
+            print("Gateway ja esta ativo.")
+            return False
 
-    # Inicia o protocolo selecionado
-    try:
-        if protocolo == "MQTT":
-            mqtt.iniciar(receber_distancia)
+        if protocolo not in ("MQTT", "OPCUA"):
+            print("Protocolo invalido.")
+            return False
 
-        elif protocolo == "OPCUA":
-            opcua.iniciar(receber_distancia)
+        try:
+            if protocolo == "MQTT":
+                mqtt.iniciar(receber_distancia)
 
-    except Exception as erro:
-        print("Erro ao iniciar gateway:", erro)
-        return False
+            elif protocolo == "OPCUA":
+                opcua.iniciar(receber_distancia)
 
-    protocolo_ativo = protocolo
-    gateway_ativo = True
+        except Exception as erro:
+            print("Erro ao iniciar gateway:", erro)
+            return False
 
-    print("Gateway iniciado:", protocolo_ativo)
-    return True
+        protocolo_ativo = protocolo
+        gateway_ativo = True
+
+        print("Gateway iniciado:", protocolo)
+        return True
 
 
-# Encerra a comunicacao do gateway
+# Encerra o protocolo ativo
 def parar_gateway():
     global protocolo_ativo, gateway_ativo
 
-    # Verifica se ja esta parado
-    if not gateway_ativo:
-        print("Gateway ja esta parado.")
-        return False
+    with controle:
 
-    # Encerra o protocolo selecionado
-    try:
-        if protocolo_ativo == "MQTT":
-            mqtt.parar()
+        if not gateway_ativo:
+            print("Gateway ja esta parado.")
+            return False
 
-        elif protocolo_ativo == "OPCUA":
-            opcua.parar()
+        try:
+            if protocolo_ativo == "MQTT":
+                mqtt.parar()
 
-    except Exception as erro:
-        print("Erro ao parar gateway:", erro)
-        return False
+            elif protocolo_ativo == "OPCUA":
+                opcua.parar()
 
-    gateway_ativo = False
-    protocolo_ativo = None
+        except Exception as erro:
+            print("Erro ao parar gateway:", erro)
+            return False
 
-    print("Gateway parado.")
-    return True
+        gateway_ativo = False
+        protocolo_ativo = None
+
+        print("Gateway parado.")
+        return True
 
 
-# Executa somente quando chamado diretamente
+# Consulta o estado atual
+def obter_estado():
+
+    with controle:
+        return {
+            "ativo": gateway_ativo,
+            "protocolo": protocolo_ativo
+        }
+
+
 if __name__ == "__main__":
-    print("Modulo de gerenciamento do gateway carregado.")
+    print("Modulo do gateway carregado.")
