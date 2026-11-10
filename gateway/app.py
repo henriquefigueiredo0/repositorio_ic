@@ -38,7 +38,7 @@ def iniciar():
     porta = dados.get("porta")
     parametro = dados.get("parametro")
 
-    # Confere os parametros atualmente suportados
+    # Confere os parametros suportados
     if protocolo == "MQTT":
         configuracao_valida = (
             porta == porta_mqtt and
@@ -63,7 +63,7 @@ def iniciar():
             "mensagem": "Use os parametros padrao nesta etapa."
         }), 400
 
-    # Solicita o inicio do gateway
+    # Inicia o gateway e comanda a ESP32
     sucesso = main_teste.iniciar_gateway(protocolo)
 
     if not sucesso:

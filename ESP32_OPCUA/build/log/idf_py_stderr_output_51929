@@ -1,0 +1,34 @@
+Command: /Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python /Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/main.elf /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader/bootloader.elf -m '/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python' '/Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/tools/idf.py' '-p' '/dev/cu.usbserial-0001'
+--- esp-idf-monitor 1.10.0 on /dev/cu.usbserial-0001 115200
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H
+Exception in thread Thread-2 (_run_outer):
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/esp_idf_monitor/base/stoppable_thread.py", line 47, in _run_outer
+    self.run()
+    ~~~~~~~~^^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/esp_idf_monitor/base/serial_reader.py", line 55, in run
+    self.open_serial(reset=self.reset)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/esp_idf_monitor/base/serial_reader.py", line 106, in open_serial
+    self.serial.open()
+    ~~~~~~~~~~~~~~~~^^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/serial/serialposix.py", line 332, in open
+    self._reconfigure_port(force_update=True)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/lib/python3.14/site-packages/serial/serialposix.py", line 517, in _reconfigure_port
+    termios.tcsetattr(
+    ~~~~~~~~~~~~~~~~~^
+        self.fd,
+        ^^^^^^^^
+        termios.TCSANOW,
+        ^^^^^^^^^^^^^^^^
+        [iflag, oflag, cflag, lflag, ispeed, ospeed, cc])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+termios.error: (22, 'Invalid argument')
+

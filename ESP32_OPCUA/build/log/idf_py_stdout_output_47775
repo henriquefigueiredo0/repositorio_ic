@@ -1,0 +1,415 @@
+Command: /Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python /Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/main.elf /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader/bootloader.elf -m '/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python' '/Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf/tools/idf.py'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6180
+load:0x40078000,len:15852
+load:0x40080400,len:3876
+entry 0x4008063c
+[0;32mI (27) boot: ESP-IDF v5.5.6 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Nov 10 2026 11:29:52[0m
+[0;32mI (28) boot: chip revision: v3.1[0m
+[0;32mI (29) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (32) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (36) boot.esp32: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Partition Table:[0m
+[0;32mI (42) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (48) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (55) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (61) boot:  2 factory          factory app      00 00 00010000 00177000[0m
+[0;32mI (68) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2df88h (188296) map[0m
+[0;32mI (140) esp_image: segment 1: paddr=0003dfb0 vaddr=3ffb0000 size=02068h (  8296) load[0m
+[0;32mI (143) esp_image: segment 2: paddr=00040020 vaddr=400d0020 size=b6840h (747584) map[0m
+[0;32mI (399) esp_image: segment 3: paddr=000f6868 vaddr=3ffb2068 size=0f1d0h ( 61904) load[0m
+[0;32mI (422) esp_image: segment 4: paddr=00105a40 vaddr=40080000 size=18f78h (102264) load[0m
+[0;32mI (463) esp_image: segment 5: paddr=0011e9c0 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (478) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (484) cpu_start: Multicore app[0m
+[0;32mI (493) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (493) cpu_start: Pro cpu start user code[0m
+[0;32mI (493) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (495) app_init: Application information:[0m
+[0;32mI (499) app_init: Project name:     main[0m
+[0;32mI (502) app_init: App version:      78203a8-dirty[0m
+[0;32mI (507) app_init: Compile time:     Nov 10 2026 11:29:28[0m
+[0;32mI (512) app_init: ELF file SHA256:  9b7690a93...[0m
+[0;32mI (516) app_init: ESP-IDF:          v5.5.6[0m
+[0;32mI (520) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (524) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (528) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (532) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (538) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (543) heap_init: At 3FFC64C8 len 00019B38 (102 KiB): DRAM[0m
+[0;32mI (548) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (554) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (559) heap_init: At 40098F78 len 00007088 (28 KiB): IRAM[0m
+[0;33mW (566) spi_flash: Detected boya flash chip but using generic driver. For optimal functionality, enable `SPI_FLASH_SUPPORT_BOYA_CHIP` in menuconfig[0m
+[0;32mI (577) spi_flash: detected chip: generic[0m
+[0;32mI (581) spi_flash: flash io: dio[0m
+[0;32mI (586) main_task: Started on CPU0[0m
+[0;32mI (587) main_task: Calling app_main()[0m
+[0;32mI (618) main_task:@ReConectando ao Wi-FiI (626) wifi:wifi driver task: 3ffd0eac, prio:23, stack:6656, core=0[0m
+[0;32mI (642) wifi:wifi firmware version: c6dceae[0m
+[0;32mI (642) wifi:wifi certification version: v7.0[0m
+[0;32mI (643) wifi:config NVS flash: enabled[0m
+[0;32mI (643) wifi:config nano formatting: disabled[0m
+[0;32mI (647) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (652) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (656) wifi:Init management short buffer num: 32[0m
+[0;32mI (660) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (664) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (668) wifi:Init static rx buffer num: 4[0m
+[0;32mI (672) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (677) wifi_init: rx ba win: 6[0m
+[0;32mI (678) wifi_init: accept mbox: 6[0m
+[0;32mI (681) wifi_init: tcpip mbox: 32[0m
+[0;32mI (684) wifi_init: udp mbox: 6[0m
+[0;32mI (687) wifi_init: tcp mbox: 6[0m
+[0;32mI (690) wifi_init: tcp tx win: 5760[0m
+[0;32mI (693) wifi_init: tcp rx win: 5760[0m
+[0;32mI (696) wifi_init: tcp mss: 1440[0m
+[0;32mI (699) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (703) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (711) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (795) wifi:mode : sta (f0:24:f9:0d:c3:b0)[0m
+[0;32mI (796) wifi:enable tsf[0m
+[0;32mI (800) wifi:Set ps type: 1, coexist: 0[0m
+
+[0;32mI (815) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (817) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (840) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (854) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (973) wifi:connected with Caverna_do_Dragao, aid = 5, channel 11, BW20, bssid = 84:0b:bb:a7:14:48[0m
+[0;32mI (974) wifi:security: WPA2-PSK, phy: bgn, rssi: -53, cipher(pairwise:0x3, group:0x3), pmf:0[0m
+[0;32mI (983) wifi:pm start, type: 1[0m
+
+[0;32mI (984) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (993) wifi:AP's beacon interval = 102400 us, DTIM period = 3[0m
+[0;32mI (1211) wifi:<ba-add>idx:0 (ifx:0, 84:0b:bb:a7:14:48), tid:0, ssn:2, winSize:64[0m
+....I (3034) esp_netif_handlers: sta ip: 192.168.15.110, mask: 255.255.255.0, gw: 192.168.15.1
+.
+IP da ESP32: 192.168.15.110
+ESP32 aguardando comando.
+Conectando ao broker MQTT...
+MQTT conectado!
+Comando recebido: MQTT
+Protocolo ativo: MQTT
+Distancia: 10.24 cm
+Distancia: 10.24 cm
+Distancia: 10.26 cm
+Distancia: 10.24 cm
+Distancia: 10.24 cm
+Distancia: 10.24 cm
+Distancia: 10.24 cm
+Distancia: 10.24 cm
+Distancia: 51.06 cm
+Distancia: 38.26 cm
+Distancia: 39.43 cm
+Distancia: 32.53 cm
+Distancia: 56.51 cm
+Distancia: 30.46 cm
+Distancia: 28.88 cm
+Distancia: 29.69 cm
+Erro na medicao.
+Distancia: 4.92 cm
+Distancia: 6.55 cm
+Distancia: 9.21 cm
+Distancia: 7.20 cm
+Distancia: 6.57 cm
+Distancia: 5.90 cm
+Distancia: 7.53 cm
+Distancia: 8.18 cm
+Distancia: 8.87 cm
+Distancia: 6.88 cm
+Distancia: 7.85 cm
+Distancia: 8.87 cm
+Distancia: 8.87 cm
+Distancia: 8.87 cm
+Distancia: 8.87 cm
+Distancia: 9.90 cm
+Distancia: 8.87 cm
+Distancia: 10.24 cm
+Distancia: 7.85 cm
+Distancia: 10.56 cm
+Distancia: 16.36 cm
+Distancia: 10.58 cm
+Distancia: 11.94 cm
+Distancia: 11.61 cm
+Distancia: 11.61 cm
+Distancia: 13.33 cm
+Distancia: 16.38 cm
+Distancia: 11.95 cm
+Distancia: 11.95 cm
+Distancia: 11.95 cm
+Distancia: 11.94 cm
+Distancia: 11.95 cm
+Distancia: 11.95 cm
+Distancia: 11.95 cm
+Distancia: 11.94 cm
+Distancia: 16.70 cm
+Distancia: 12.28 cm
+Distancia: 10.58 cm
+Distancia: 12.30 cm
+Erro na medicao.
+Distancia: 6.55 cm
+Distancia: 6.55 cm
+Distancia: 7.20 cm
+Distancia: 4.92 cm
+Distancia: 6.57 cm
+Distancia: 9.21 cm
+Distancia: 10.58 cm
+Distancia: 11.27 cm
+Distancia: 14.35 cm
+Distancia: 12.64 cm
+Distancia: 14.01 cm
+Distancia: 13.67 cm
+Distancia: 15.37 cm
+Distancia: 15.73 cm
+Distancia: 16.70 cm
+Distancia: 17.01 cm
+Distancia: 16.69 cm
+Distancia: 17.34 cm
+Distancia: 16.69 cm
+Distancia: 16.70 cm
+Distancia: 16.38 cm
+Distancia: 17.01 cm
+Distancia: 17.34 cm
+Distancia: 17.01 cm
+Distancia: 22.16 cm
+Distancia: 22.47 cm
+Distancia: 22.76 cm
+Distancia: 21.83 cm
+Distancia: 22.16 cm
+Distancia: 36.87 cm
+Distancia: 63.73 cm
+Distancia: 63.30 cm
+Distancia: 64.43 cm
+Distancia: 63.99 cm
+Distancia: 63.30 cm
+Distancia: 63.73 cm
+Comando recebido: PARAR
+Transmissao parada.
+Comando recebido: OPCUA
+Protocolo ativo: OPC UA
+Conectando ao OPC UA...
+[1970-01-01 00:03:01.869 (UTC+0000)] warn/eventloop	No function defined to initialize the network interface.Initialization must be performed externally
+[1970-01-01 00:03:01.887 (UTC+0000)] info/network	TCP 55	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:03:01.937 (UTC+0000)] warn/channel	TCP 55	| SC 6	| The "CreatedAt" timestamp of the received ChannelSecurityToken does not match with the local system clock
+[1970-01-01 00:03:01.942 (UTC+0000)] info/channel	TCP 55	| SC 6	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[1970-01-01 00:03:01.965 (UTC+0000)] info/client	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[1970-01-01 00:03:01.984 (UTC+0000)] info/client	The initially defined EndpointURL opc.tcp://192.168.15.147:4840/ic/ is valid for the server
+[1970-01-01 00:03:02.012 (UTC+0000)] info/client	Endpoint 0: Best endpoint so far with UserTokenPolicy anonymous
+[1970-01-01 00:03:02.013 (UTC+0000)] info/client	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy anonymous
+[1970-01-01 00:03:02.028 (UTC+0000)] info/client	CreateSession: Using UserTokenPolicy anonymous
+[1970-01-01 00:03:02.060 (UTC+0000)] info/client	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[1970-01-01 00:03:02.062 (UTC+0000)] info/client	ActivateSession: Using UserTokenPolicy anonymous
+[1970-01-01 00:03:02.088 (UTC+0000)] info/client	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+OPC UA conectado!
+Distancia: 16.04 cm
+Distancia OPC UA: 16.04 cm
+Distancia: 16.04 cm
+Distancia OPC UA: 16.04 cm
+Distancia: 16.05 cm
+Distancia OPC UA: 16.05 cm
+Distancia: 17.01 cm
+Distancia OPC UA: 17.01 cm
+Distancia: 32.83 cm
+Distancia OPC UA: 32.83 cm
+Distancia: 18.62 cm
+Distancia OPC UA: 18.62 cm
+Distancia: 20.56 cm
+[1970-01-01 00:03:04.035 (UTC+0000)] error/network	TCP 55	| Send failed with error Socket is not connected
+[1970-01-01 00:03:04.037 (UTC+0000)] warn/client	Sending the request failed with status BadConnectionClosed
+[1970-01-01 00:03:04.044 (UTC+0000)] info/client	Client Status: ChannelState: Closing, SessionState: Created, ConnectStatus: Good
+Erro ao enviar distancia OPC UA.
+[1970-01-01 00:03:04.068 (UTC+0000)] info/channel	TCP 55	| SC 6	| SecureChannel closed
+[1970-01-01 00:03:04.069 (UTC+0000)] info/client	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[1970-01-01 00:03:04.079 (UTC+0000)] info/network	TCP 55	| Socket closed
+[1970-01-01 00:03:04.169 (UTC+0000)] info/network	UDP	| Shutting down the ConnectionManager
+[1970-01-01 00:03:04.170 (UTC+0000)] info/network	TCP	| Shutting down the ConnectionManager
+Conectando ao OPC UA...
+[1970-01-01 00:03:04.182 (UTC+0000)] warn/eventloop	No function defined to initialize the network interface.Initialization must be performed externally
+[1970-01-01 00:03:04.200 (UTC+0000)] info/network	TCP 55	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:03:04.237 (UTC+0000)] info/network	TCP 55	| The connection closes with error 104
+[1970-01-01 00:03:04.238 (UTC+0000)] info/channel	TCP 55	| SC 0	| SecureChannel closed
+[1970-01-01 00:03:04.242 (UTC+0000)] error/client	Could not open a TCP connection to the Endpoint at opc.tcp://192.168.15.147:4840/ic/
+[1970-01-01 00:03:04.254 (UTC+0000)] info/client	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionRejected
+[1970-01-01 00:03:04.267 (UTC+0000)] info/network	TCP 55	| Socket closed
+Erro OPC UA: 0x80AC0000
+[1970-01-01 00:03:05.184 (UTC+0000)] info/network	UDP	| Shutting down the ConnectionManager
+[1970-01-01 00:03:05.185 (UTC+0000)] info/network	TCP	| Shutting down the ConnectionManager
+Distancia: 16.04 cm
+Erro na medicao.
+Distancia: 6.55 cm
+Distancia: 7.53 cm
+Conectando ao OPC UA...
+[1970-01-01 00:03:06.182 (UTC+0000)] warn/eventloop	No function defined to initialize the network interface.Initialization must be performed externally
+[1970-01-01 00:03:06.196 (UTC+0000)] info/network	TCP 55	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:03:06.201 (UTC+0000)] info/network	TCP 55	| The connection closes with error 104
+[1970-01-01 00:03:06.206 (UTC+0000)] info/channel	TCP 55	| SC 0	| SecureChannel closed
+[1970-01-01 00:03:06.213 (UTC+0000)] error/client	Could not open a TCP connection to the Endpoint at opc.tcp://192.168.15.147:4840/ic/
+[1970-01-01 00:03:06.225 (UTC+0000)] info/client	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionRejected
+[1970-01-01 00:03:06.237 (UTC+0000)] info/network	TCP 55	| Socket closed
+Erro OPC UA: 0x80AC0000
+[1970-01-01 00:03:07.183 (UTC+0000)] info/network	UDP	| Shutting down the ConnectionManager
+[1970-01-01 00:03:07.184 (UTC+0000)] info/network	TCP	| Shutting down the ConnectionManager
+Distancia: 35.69 cm
+Distancia: 18.30 cm
+Distancia: 17.97 cm
+Distancia: 19.24 cm
+Conectando ao OPC UA...
+[1970-01-01 00:03:08.182 (UTC+0000)] warn/eventloop	No function defined to initialize the network interface.Initialization must be performed externally
+[1970-01-01 00:03:08.196 (UTC+0000)] info/network	TCP 55	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:03:08.320 (UTC+0000)] info/network	TCP 55	| The connection closes with error 104
+[1970-01-01 00:03:08.321 (UTC+0000)] info/channel	TCP 55	| SC 0	| SecureChannel closed
+[1970-01-01 00:03:08.326 (UTC+0000)] error/client	Could not open a TCP connection to the Endpoint at opc.tcp://192.168.15.147:4840/ic/
+[1970-01-01 00:03:08.338 (UTC+0000)] info/client	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionRejected
+[1970-01-01 00:03:08.350 (UTC+0000)] info/network	TCP 55	| Socket closed
+Erro OPC UA: 0x80AC0000
+[1970-01-01 00:03:09.184 (UTC+0000)] info/network	UDP	| Shutting down the ConnectionManager
+[1970-01-01 00:03:09.185 (UTC+0000)] info/network	TCP	| Shutting down the ConnectionManager
+Distancia: 18.30 cm
+Distancia: 18.30 cm
+Distancia: 18.30 cm
+Distancia: 18.30 cm
+Conectando ao OPC UA...
+[1970-01-01 00:03:10.182 (UTC+0000)] warn/eventloop	No function defined to initialize the network interface.Initialization must be performed externally
+[1970-01-01 00:03:10.196 (UTC+0000)] info/network	TCP 55	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:03:10.201 (UTC+0000)] info/network	TCP 55	| The connection closes with error 104
+[1970-01-01 00:03:10.205 (UTC+0000)] info/channel	TCP 55	| SC 0	| SecureChannel closed
+[1970-01-01 00:03:10.212 (UTC+0000)] error/client	Could not open a TCP connection to the Endpoint at opc.tcp://192.168.15.147:4840/ic/
+[1970-01-01 00:03:10.224 (UTC+0000)] info/client	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionRejected
+[1970-01-01 00:03:10.237 (UTC+0000)] info/network	TCP 55	| Socket closed
+Erro OPC UA: 0x80AC0000
+[1970-01-01 00:03:11.183 (UTC+0000)] info/network	UDP	| Shutting down the ConnectionManager
+[1970-01-01 00:03:11.184 (UTC+0000)] info/network	TCP	| Shutting down the ConnectionManager
+Distancia: 18.30 cm
+Distancia: 18.30 cm
+Distancia: 18.30 cm
+Distancia: 18.30 cm
+Conectando ao OPC UA...
+[1970-01-01 00:03:12.182 (UTC+0000)] warn/eventloop	No function defined to initialize the network interface.Initialization must be performed externally
+[1970-01-01 00:03:12.196 (UTC+0000)] info/network	TCP 55	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:03:12.219 (UTC+0000)] info/network	TCP 55	| The connection closes with error 104
+[1970-01-01 00:03:12.220 (UTC+0000)] info/channel	TCP 55	| SC 0	| SecureChannel closed
+[1970-01-01 00:03:12.225 (UTC+0000)] error/client	Could not open a TCP connection to the Endpoint at opc.tcp://192.168.15.147:4840/ic/
+[1970-01-01 00:03:12.237 (UTC+0000)] info/client	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionRejected
+[1970-01-01 00:03:12.249 (UTC+0000)] info/network	TCP 55	| Socket closed
+Erro OPC UA: 0x80AC0000
+[1970-01-01 00:03:13.184 (UTC+0000)] info/network	UDP	| Shutting down the ConnectionManager
+[1970-01-01 00:03:13.185 (UTC+0000)] info/network	TCP	| Shutting down the ConnectionManager
+Distancia: 18.28 cm
+Distancia: 18.30 cm
+Distancia: 18.30 cm
+Distancia: 18.30 cm
+Conectando ao OPC UA...
+[1970-01-01 00:03:14.182 (UTC+0000)] warn/eventloop	No function defined to initialize the network interface.Initialization must be performed externally
+[1970-01-01 00:03:14.196 (UTC+0000)] info/network	TCP 55	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:03:14.239 (UTC+0000)] warn/channel	TCP 55	| SC 6	| The "CreatedAt" timestamp of the received ChannelSecurityToken does not match with the local system clock
+[1970-01-01 00:03:14.244 (UTC+0000)] info/channel	TCP 55	| SC 6	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[1970-01-01 00:03:14.267 (UTC+0000)] info/client	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[1970-01-01 00:03:14.278 (UTC+0000)] info/client	The initially defined EndpointURL opc.tcp://192.168.15.147:4840/ic/ is valid for the server
+[1970-01-01 00:03:14.297 (UTC+0000)] info/client	Endpoint 0: Best endpoint so far with UserTokenPolicy anonymous
+[1970-01-01 00:03:14.298 (UTC+0000)] info/client	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy anonymous
+[1970-01-01 00:03:14.313 (UTC+0000)] info/client	CreateSession: Using UserTokenPolicy anonymous
+[1970-01-01 00:03:14.338 (UTC+0000)] info/client	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[1970-01-01 00:03:14.340 (UTC+0000)] info/client	ActivateSession: Using UserTokenPolicy anonymous
+[1970-01-01 00:03:14.360 (UTC+0000)] info/client	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+OPC UA conectado!
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.28 cm
+Distancia OPC UA: 18.28 cm
+Distancia: 18.28 cm
+Distancia OPC UA: 18.28 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+Distancia OPC UA: 18.30 cm
+Distancia: 18.30 cm
+[1970-01-01 00:03:18.759 (UTC+0000)] info/channel	TCP 55	| SC 6	| SecureChannel closed
+[1970-01-01 00:03:18.761 (UTC+0000)] info/client	Client Status: ChannelState: Closed, SessionState: Created, ConnectStatus: Good
+[1970-01-01 00:03:18.772 (UTC+0000)] info/network	TCP 58	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:03:18.779 (UTC+0000)] info/network	TCP 55	| Socket closed
+[1970-01-01 00:03:18.785 (UTC+0000)] info/network	TCP 58	| The connection closes with error 104
+Erro ao enviar distancia OPC UA.
+[1970-01-01 00:03:18.805 (UTC+0000)] info/channel	TCP 58	| SC 0	| SecureChannel closed
+[1970-01-01 00:03:18.806 (UTC+0000)] info/client	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[1970-01-01 00:03:18.816 (UTC+0000)] info/network	TCP 58	| Socket closed
+[1970-01-01 00:03:18.907 (UTC+0000)] info/network	UDP	| Shutting down the ConnectionManager
+[1970-01-01 00:03:18.908 (UTC+0000)] info/network	TCP	| Shutting down the ConnectionManager
+Conectando ao OPC UA...
+[1970-01-01 00:03:18.920 (UTC+0000)] warn/eventloop	No function defined to initialize the network interface.Initialization must be performed externally
+[1970-01-01 00:03:18.938 (UTC+0000)] info/network	TCP 55	| Opening a connection to "192.168.15.147" on port 4840
+[1970-01-01 00:03:18.946 (UTC+0000)] info/network	TCP 55	| The connection closes with error 104
+[1970-01-01 00:03:18.948 (UTC+0000)] info/channel	TCP 55	| SC 0	| SecureChannel closed
+[1970-01-01 00:03:18.955 (UTC+0000)] error/client	Could not open a TCP connection to the Endpoint at opc.tcp://192.168.15.147:4840/ic/
+[1970-01-01 00:03:18.967 (UTC+0000)] info/client	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionRejected
+[1970-01-01 00:03:18.980 (UTC+0000)] info/network	TCP 55	| Socket closed
+Erro OPC UA: 0x80AC0000
+[1970-01-01 00:03:19.922 (UTC+0000)] info/network	UDP	| Shutting down the ConnectionManager
+[1970-01-01 00:03:19.923 (UTC+0000)] info/network	TCP	| Shutting down the ConnectionManager
+Distancia: 19.26 cm
+Comando recebido: PARAR
+Transmissao parada.
+Comando recebido: PARAR
+y����5
+[0;32mI (647) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (652) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (656) wifi:Init management short buffer num: 32[0m
+[0;32mI (660) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (664) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (668) wifi:Init static rx buffer num: 4[0m
+[0;32mI (672) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (677) wifi_init: rx ba win: 6[0m
+[0;32mI (678) wifi_init: accept mbox: 6[0m
+[0;32mI (681) wifi_init: tcpip mbox: 32[0m
+[0;32mI (684) wifi_init: udp mbox: 6[0m
+[0;32mI (687) wifi_init: tcp mbox: 6[0m
+[0;32mI (690) wifi_init: tcp tx win: 5760[0m
+[0;32mI (693) wifi_init: tcp rx win: 5760[0m
+[0;32mI (696) wifi_init: tcp mss: 1440[0m
+[0;32mI (699) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (703) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (711) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (793) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)[0m
+[0;32mI (810) wifi:mode : sta (f0:24:f9:0d:c3:b0)[0m
+[0;32mI (811) wifi:enable tsf[0m
+[0;32mI (815) wifi:Set ps type: 1, coexist: 0[0m
+
+[0;32mI (836) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (838) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (859) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (888) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (981) wifi:connected with Caverna_do_Dragao, aid = 5, channel 11, BW20, bssid = 84:0b:bb:a7:14:48[0m
+[0;32mI (982) wifi:security: WPA2-PSK, phy: bgn, rssi: -54, cipher(pairwise:0x3, group:0x3), pmf:0[0m
+[0;32mI (991) wifi:pm start, type: 1[0m
+
+[0;32mI (991) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (1086) wifi:AP's beacon interval = 102400 us, DTIM period = 3[0m
+[0;32mI (1115) wifi:<ba-add>idx:0 (ifx:0, 84:0b:bb:a7:14:48), tid:0, ssn:2, winSize:64[0m
+...I (2520) esp_netif_handlers: sta ip: 192.168.15.110, mask: 255.255.255.0, gw: 192.168.15.1
+.
+IP da ESP32: 192.168.15.110
+ESP32 aguardando comando.
+Conectando ao broker MQTT...
+MQTT conectado!

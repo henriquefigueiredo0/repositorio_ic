@@ -3,6 +3,7 @@ import threading
 
 import mqtt
 import opcua
+import controle_esp
 
 
 # Guarda o estado do gateway
@@ -32,15 +33,43 @@ def iniciar_gateway(protocolo):
             print("Protocolo invalido.")
             return False
 
+        # Prepara o receptor na TV Box
         try:
             if protocolo == "MQTT":
                 mqtt.iniciar(receber_distancia)
-
-            elif protocolo == "OPCUA":
+            else:
                 opcua.iniciar(receber_distancia)
 
         except Exception as erro:
-            print("Erro ao iniciar gateway:", erro)
+            print("Erro ao iniciar receptor:", erro)
+
+            # Tenta limpar uma inicializacao parcial
+            try:
+                if protocolo == "MQTT":
+                    mqtt.parar()
+                else:
+                    opcua.parar()
+            except Exception as erro_limpeza:
+                print("Erro na limpeza:", erro_limpeza)
+
+            return False
+
+        # Envia o comando para a ESP32
+        try:
+            controle_esp.enviar_comando(protocolo)
+
+        except Exception as erro:
+            print("Erro ao comandar ESP32:", erro)
+
+            # Desfaz a inicializacao do receptor
+            try:
+                if protocolo == "MQTT":
+                    mqtt.parar()
+                else:
+                    opcua.parar()
+            except Exception as erro_limpeza:
+                print("Erro na limpeza:", erro_limpeza)
+
             return False
 
         protocolo_ativo = protocolo
@@ -60,6 +89,15 @@ def parar_gateway():
             print("Gateway ja esta parado.")
             return False
 
+        # Solicita que a ESP32 pare de transmitir
+        try:
+            controle_esp.enviar_comando("PARAR")
+
+        except Exception as erro:
+            print("Erro ao enviar PARAR:", erro)
+            return False
+
+        # Encerra o receptor na TV Box
         try:
             if protocolo_ativo == "MQTT":
                 mqtt.parar()
@@ -68,7 +106,7 @@ def parar_gateway():
                 opcua.parar()
 
         except Exception as erro:
-            print("Erro ao parar gateway:", erro)
+            print("Erro ao parar receptor:", erro)
             return False
 
         gateway_ativo = False
