@@ -1,5 +1,5 @@
 # IP da TV Box
-ip_tvbox = "192.168.15.147"
+ip_tvbox = "192.168.0.123"
 
 # Parametros MQTT
 broker_mqtt = ip_tvbox
@@ -16,7 +16,7 @@ ip_clp = "192.168.0.1"
 
 # False: testes em casa sem CLP
 # True: comunica com o CLP pela rede
-habilitar_clp = False
+habilitar_clp = True
 
 # Saida que representa a bomba
 bit_bomba = 3 # Q0.3

@@ -1,3 +1,0 @@
-Command: cmake -G Ninja -DPYTHON_DEPS_CHECKED=1 -DPYTHON=/Users/henriquefigueiredo/.espressif/tools/python/v5.5.6/venv/bin/python -DESP_PLATFORM=1 -DCCACHE_ENABLE=0 /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA
-ESP Insights Project commit: 78203a8-dirty
-ESP RainMaker Project commit: 78203a8-dirty

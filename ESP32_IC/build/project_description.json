@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "main",
-    "project_version":    "e7c71fd-dirty",
+    "project_version":    "f62e56b-dirty",
     "project_path":       "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC",
     "idf_path":           "/Users/henriquefigueiredo/.espressif/v5.5.6/esp-idf",
     "build_dir":          "/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build",

@@ -1,2 +1,2 @@
-source /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader/gdbinit/symbols
-source /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader/gdbinit/connect
+source /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader/gdbinit/symbols
+source /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader/gdbinit/connect

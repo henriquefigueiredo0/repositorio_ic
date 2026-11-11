@@ -1,4 +1,0 @@
-Command: ninja monitor.
-ESP Insights Project commit: f7d2ba7-dirty
-ESP RainMaker Project commit: f7d2ba7-dirty
-ninja: error: unknown target 'monitor.', did you mean 'monitor'?

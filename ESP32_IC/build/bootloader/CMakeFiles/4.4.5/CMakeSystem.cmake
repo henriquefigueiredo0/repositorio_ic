@@ -3,7 +3,7 @@ set(CMAKE_HOST_SYSTEM_NAME "Darwin")
 set(CMAKE_HOST_SYSTEM_VERSION "25.6.0")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "arm64")
 
-include("/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader/toolchain/toolchain-esp32.cmake")
+include("/Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader/toolchain/toolchain-esp32.cmake")
 
 set(CMAKE_SYSTEM "Generic")
 set(CMAKE_SYSTEM_NAME "Generic")

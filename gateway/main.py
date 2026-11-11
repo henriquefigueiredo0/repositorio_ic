@@ -1,6 +1,5 @@
 import threading
 import time
-
 import mqtt
 import opcua
 import controle_esp

@@ -22,4 +22,4 @@ set confirm off
 set confirm on
 
 # Load application symbols
-file /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/build/bootloader/bootloader.elf
+file /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/build/bootloader/bootloader.elf

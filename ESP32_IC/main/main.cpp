@@ -15,9 +15,9 @@ const char* ssid = "Caverna_do_Dragao";
 const char* senha = "xupafederal";
 
 // Endereco dos servicos da TV Box
-const char* broker = "192.168.15.147";
+const char* broker = "192.168.0.123";
 const int porta_mqtt = 1883;
-const char* endpoint_opcua = "opc.tcp://192.168.15.147:4840/ic/";
+const char* endpoint_opcua = "opc.tcp://192.168.0.123:4840/ic/";
 
 // Topicos MQTT
 const char* topico_distancia = "ic/esp/distancia";

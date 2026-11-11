@@ -1,4 +1,4 @@
-/* * Data converted from /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_OPCUA/managed_components/espressif__esp_insights/server_certs/https_server.crt
+/* * Data converted from /Users/henriquefigueiredo/Documents/ic/repositorio_ic/ESP32_IC/managed_components/espressif__esp_insights/server_certs/https_server.crt
  * (null byte appended)
  */
 .data
