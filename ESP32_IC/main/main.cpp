@@ -10,9 +10,11 @@ enum Protocolos { PARADO, MQTT, OPCUA };
 Protocolos protocoloAtivo = PARADO;
 Protocolos protocoloDesejado = PARADO;
 
+// ------------------ SEMPRE MUDAR --------------------
+
 // Configuracoes da rede local
-const char* ssid = "Caverna_do_Dragao";
-const char* senha = "xupafederal";
+const char* ssid = "Henrique_IC";
+const char* senha = "henrique";
 
 // Endereco dos servicos da TV Box
 const char* broker = "192.168.0.123";
@@ -22,6 +24,8 @@ const char* endpoint_opcua = "opc.tcp://192.168.0.123:4840/ic/";
 // Topicos MQTT
 const char* topico_distancia = "ic/esp/distancia";
 const char* topico_protocolo = "ic/esp/protocolo";
+
+// -------------------------------------------------------
 
 // Cliente MQTT
 WiFiClient wifiClient;
