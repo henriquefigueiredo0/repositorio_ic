@@ -9,13 +9,13 @@ enum Protocolos { MQTT, OPCUA };
 const Protocolos PROTOCOLO_CONFIGURADO = MQTT;
 
 // Configuracoes de rede
-const char* ssid = "Henrique_IC";
-const char* senha = "henrique";
+const char* ssid = "Caverna_do_Dragao";
+const char* senha = "xupafederal";
 
 // Endereco da TV Box
-const char* broker = "192.168.0.123";
+const char* broker = "192.168.15.147";
 const int porta_mqtt = 1883;
-const char* endpoint_opcua = "opc.tcp://192.168.0.123:4840/ic/";
+const char* endpoint_opcua = "opc.tcp://192.168.15.147:4840/ic/";
 
 // Identificacao da origem dos dados
 const char* id_dispositivo = "esp32_01";
