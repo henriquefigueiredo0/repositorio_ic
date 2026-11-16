@@ -1,22 +1,41 @@
-# IP da TV Box
-ip_tvbox = "192.168.0.123"
+from pathlib import Path
 
-# Parametros MQTT
-broker_mqtt = ip_tvbox
-porta_mqtt = 1883
-topico_distancia = "ic/esp/distancia"
 
-# Parametros OPC UA
-porta_opcua = 4840
-endpoint_opcua = f"opc.tcp://{ip_tvbox}:{porta_opcua}/ic/"
-namespace_opcua = "urn:gateway"
+# Pasta onde estao os arquivos do gateway
+PASTA_GATEWAY = Path(__file__).resolve().parent
 
-# Parametros CLP
-ip_clp = "192.168.0.1"
+# Banco que armazena as regras cadastradas na interface
+BANCO_DADOS = PASTA_GATEWAY / "regras.db"
 
-# False: testes em casa sem CLP
-# True: comunica com o CLP pela rede
-habilitar_clp = True
 
-# Saida que representa a bomba
-bit_bomba = 3 # Q0.3
+# MQTT: o Mosquitto sera executado na propria TV Box
+BROKER_MQTT = "127.0.0.1"
+PORTA_MQTT = 1883
+
+
+# OPC UA: 0.0.0.0 permite conexoes pelas interfaces de rede
+HOST_OPCUA = "0.0.0.0"
+PORTA_OPCUA = 4840
+ENDPOINT_OPCUA = f"opc.tcp://{HOST_OPCUA}:{PORTA_OPCUA}/ic/"
+NAMESPACE_OPCUA = "urn:gateway"
+
+
+# Servidor web acessivel pela rede
+HOST_WEB = "0.0.0.0"
+PORTA_WEB = 5001
+
+
+# Comunicacao com os CLPs Siemens
+# Deixe False enquanto estiver sem o equipamento
+HABILITAR_CLP = False
+
+# Parametros de conexao padrao do S7-1200
+CLP_RACK = 0
+CLP_SLOT = 1
+
+
+# Configuracoes gerais das regras
+INTERVALO_PADRAO_MS = 200
+
+# Tamanho maximo do tipo STRING Siemens
+MAX_STRING = 254

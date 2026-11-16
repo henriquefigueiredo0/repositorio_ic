@@ -4,28 +4,22 @@
 #include <PubSubClient.h>
 #include "open62541.h"
 
-// Estados possiveis da comunicacao
-enum Protocolos { PARADO, MQTT, OPCUA };
+// Protocolo escolhido no firmware
+enum Protocolos { MQTT, OPCUA };
+const Protocolos PROTOCOLO_CONFIGURADO = MQTT;
 
-Protocolos protocoloAtivo = PARADO;
-Protocolos protocoloDesejado = PARADO;
-
-// ------------------ SEMPRE MUDAR --------------------
-
-// Configuracoes da rede local
+// Configuracoes de rede
 const char* ssid = "Henrique_IC";
 const char* senha = "henrique";
 
-// Endereco dos servicos da TV Box
+// Endereco da TV Box
 const char* broker = "192.168.0.123";
 const int porta_mqtt = 1883;
 const char* endpoint_opcua = "opc.tcp://192.168.0.123:4840/ic/";
 
-// Topicos MQTT
+// Identificacao da origem dos dados
+const char* id_dispositivo = "esp32_01";
 const char* topico_distancia = "ic/esp/distancia";
-const char* topico_protocolo = "ic/esp/protocolo";
-
-// -------------------------------------------------------
 
 // Cliente MQTT
 WiFiClient wifiClient;
@@ -35,29 +29,31 @@ PubSubClient mqtt(wifiClient);
 UA_Client* clienteOPCUA = nullptr;
 bool opcuaConectado = false;
 
-// Identifica a variavel de distancia
+// No OPC UA da distancia
 UA_NodeId nodeIdDistancia = UA_NODEID_NUMERIC(2, 2);
-
-// Controle de reconexao
-unsigned long ultimaTentativaMQTT = 0;
-unsigned long ultimaTentativaOPCUA = 0;
-unsigned long ultimaTentativaWiFi = 0;
-
-const unsigned long intervaloReconexao = 2000;
 
 // Sensor ultrassonico
 const int trigPin = 5;
 const int echoPin = 18;
 
-// Controle das medicoes
+// Controle de tempo
+unsigned long ultimaTentativaWiFi = 0;
+unsigned long ultimaTentativaMQTT = 0;
+unsigned long ultimaTentativaOPCUA = 0;
 unsigned long ultimaMedicao = 0;
+
+const unsigned long intervaloReconexao = 2000;
 const unsigned long intervaloMedicao = 300;
 
+// Identifica cada medicao
+unsigned long sequencia = 0;
 
-// Conecta a ESP32 ao Wi-Fi
+
+// Conecta ao Wi-Fi
 void conectarWifi() {
 
     Serial.print("Conectando ao Wi-Fi");
+
     WiFi.begin(ssid, senha);
 
     while (WiFi.status() != WL_CONNECTED) {
@@ -71,69 +67,24 @@ void conectarWifi() {
 }
 
 
-// Recebe comandos pelo topico MQTT
-void receberComandoMQTT(char* topico, byte* payload,
-                       unsigned int tamanho) {
-
-    if (strcmp(topico, topico_protocolo) != 0) {
-        return;
-    }
-
-    String comando = "";
-
-    // Converte a mensagem recebida em texto
-    for (unsigned int i = 0; i < tamanho; i++) {
-        comando += (char)payload[i];
-    }
-
-    comando.trim();
-
-    Serial.print("Comando recebido: ");
-    Serial.println(comando);
-
-    // Escolhe o protocolo desejado
-    if (comando == "MQTT") {
-        protocoloDesejado = MQTT;
-    }
-
-    else if (comando == "OPCUA") {
-        protocoloDesejado = OPCUA;
-    }
-
-    else if (comando == "PARAR") {
-        protocoloDesejado = PARADO;
-    }
-
-    else {
-        Serial.println("Comando invalido.");
-    }
-}
-
-
-// Tenta conectar ao broker MQTT
+// Conecta ao broker MQTT
 void conectarMQTT() {
 
     if (WiFi.status() != WL_CONNECTED || mqtt.connected()) {
         return;
     }
 
-    // Limita a frequencia das tentativas
     if (millis() - ultimaTentativaMQTT < intervaloReconexao) {
         return;
     }
 
     ultimaTentativaMQTT = millis();
 
-    Serial.println("Conectando ao broker MQTT...");
+    Serial.println("Conectando ao MQTT...");
 
-    if (mqtt.connect("ESP32_IC")) {
-
+    if (mqtt.connect(id_dispositivo)) {
         Serial.println("MQTT conectado!");
-
-        // Escuta o canal de configuracao
-        mqtt.subscribe(topico_protocolo);
     }
-
     else {
         Serial.print("Erro MQTT: ");
         Serial.println(mqtt.state());
@@ -141,7 +92,7 @@ void conectarMQTT() {
 }
 
 
-// Mede a distancia com o sensor ultrassonico
+// Mede a distancia em centimetros
 float medirDistancia() {
 
     digitalWrite(trigPin, LOW);
@@ -151,34 +102,53 @@ float medirDistancia() {
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
 
-    // Aguarda o retorno do pulso
     long duracao = pulseIn(echoPin, HIGH, 30000);
 
     if (duracao == 0) {
         return -1;
     }
 
-    // Converte o tempo em centimetros
     return duracao * 0.0343f / 2.0f;
 }
 
 
-// Publica a distancia via MQTT
+// Publica a distancia em JSON
 void enviarMQTT(float distancia) {
 
     if (!mqtt.connected()) {
         return;
     }
 
-    char mensagem[20];
+    char mensagem[256];
 
-    dtostrf(distancia, 1, 2, mensagem);
+   int tamanho = snprintf(
+    mensagem,
+    sizeof(mensagem),
+    "{\"dispositivo\":\"%s\","
+    "\"sequencia\":%lu,"
+    "\"timestamp_ms\":%lu,"
+    "\"dados\":{\"distancia\":{"
+    "\"tipo\":\"REAL\","
+    "\"valor\":%.2f}}}",
+    id_dispositivo, sequencia, millis(), distancia
+);
 
-    mqtt.publish(topico_distancia, mensagem);
+    if (tamanho < 0 || tamanho >= (int)sizeof(mensagem)) {
+        Serial.println("Erro ao montar JSON.");
+        return;
+    }
+
+    if (mqtt.publish(topico_distancia, mensagem)) {
+        Serial.println(mensagem);
+    }
+    
+    else {
+        Serial.println("Falha ao publicar MQTT.");
+    }
 }
 
 
-// Encerra a conexao OPC UA
+// Desconecta do servidor OPC UA
 void desconectarOPCUA() {
 
     if (clienteOPCUA != nullptr) {
@@ -200,7 +170,6 @@ void conectarOPCUA() {
 
     ultimaTentativaOPCUA = millis();
 
-    // Descarta uma conexao anterior
     desconectarOPCUA();
 
     clienteOPCUA = UA_Client_new();
@@ -219,7 +188,6 @@ void conectarOPCUA() {
         opcuaConectado = true;
         Serial.println("OPC UA conectado!");
     }
-
     else {
         Serial.printf(
             "Erro OPC UA: 0x%08lX\n",
@@ -231,7 +199,7 @@ void conectarOPCUA() {
 }
 
 
-// Envia a distancia via OPC UA
+// Escreve a distancia no servidor OPC UA
 void enviarOPCUA(float distancia) {
 
     if (!opcuaConectado || clienteOPCUA == nullptr) {
@@ -254,47 +222,18 @@ void enviarOPCUA(float distancia) {
             distancia
         );
     }
-
     else {
-        Serial.println("Erro ao enviar distancia OPC UA.");
+        Serial.printf(
+            "Erro ao enviar OPC UA: 0x%08lX\n",
+            (unsigned long)status
+        );
+
         desconectarOPCUA();
     }
 }
 
 
-// Aplica a troca de protocolo
-void atualizarProtocolo() {
-
-    if (protocoloDesejado == protocoloAtivo) {
-        return;
-    }
-
-    // Encerra OPC UA quando deixa de utiliza-lo
-    if (protocoloAtivo == OPCUA) {
-        desconectarOPCUA();
-    }
-
-    protocoloAtivo = protocoloDesejado;
-
-    if (protocoloAtivo == PARADO) {
-        Serial.println("Transmissao parada.");
-    }
-
-    else if (protocoloAtivo == MQTT) {
-        Serial.println("Protocolo ativo: MQTT");
-    }
-
-    else if (protocoloAtivo == OPCUA) {
-        Serial.println("Protocolo ativo: OPC UA");
-
-        // Permite uma tentativa imediata de conexao
-        ultimaTentativaOPCUA =
-            millis() - intervaloReconexao;
-    }
-}
-
-
-// Configuracao inicial da ESP32
+// Configuracao inicial
 void setup() {
 
     Serial.begin(115200);
@@ -304,25 +243,27 @@ void setup() {
 
     conectarWifi();
 
-    // Configura o MQTT para receber comandos
-    mqtt.setServer(broker, porta_mqtt);
-    mqtt.setCallback(receberComandoMQTT);
+    if (PROTOCOLO_CONFIGURADO == MQTT) {
+        mqtt.setServer(broker, porta_mqtt);
+        mqtt.setBufferSize(512);
+        ultimaTentativaMQTT =
+            millis() - intervaloReconexao;
 
-    // Inicia sem transmitir medicoes
-    protocoloAtivo = PARADO;
-    protocoloDesejado = PARADO;
+        Serial.println("Protocolo configurado: MQTT");
+    }
+    else {
+        ultimaTentativaOPCUA =
+            millis() - intervaloReconexao;
 
-    ultimaTentativaMQTT =
-        millis() - intervaloReconexao;
-
-    Serial.println("ESP32 aguardando comando.");
+        Serial.println("Protocolo configurado: OPC UA");
+    }
 }
 
 
-// Executa continuamente
+// Execucao continua
 void loop() {
 
-    // Recupera a conexao Wi-Fi
+    // Recupera o Wi-Fi
     if (WiFi.status() != WL_CONNECTED) {
 
         if (millis() - ultimaTentativaWiFi >=
@@ -331,25 +272,26 @@ void loop() {
             ultimaTentativaWiFi = millis();
             WiFi.reconnect();
         }
+
+        if (opcuaConectado) {
+            desconectarOPCUA();
+        }
+
+        delay(10);
+        return;
     }
 
-    else {
+    // Mantem o protocolo configurado conectado
+    if (PROTOCOLO_CONFIGURADO == MQTT) {
 
-        // Mantem o MQTT de configuracao conectado
         if (!mqtt.connected()) {
             conectarMQTT();
         }
-
         else {
             mqtt.loop();
         }
     }
-
-    // Aplica comandos recebidos
-    atualizarProtocolo();
-
-    // Mantem o cliente OPC UA funcionando
-    if (protocoloAtivo == OPCUA) {
+    else {
 
         if (!opcuaConectado) {
 
@@ -359,7 +301,6 @@ void loop() {
                 conectarOPCUA();
             }
         }
-
         else if (clienteOPCUA != nullptr) {
 
             UA_StatusCode status =
@@ -372,9 +313,8 @@ void loop() {
         }
     }
 
-    // Mede somente quando existe protocolo ativo
-    if (protocoloAtivo != PARADO &&
-        millis() - ultimaMedicao >= intervaloMedicao) {
+    // Mede a distancia periodicamente
+    if (millis() - ultimaMedicao >= intervaloMedicao) {
 
         ultimaMedicao = millis();
 
@@ -382,20 +322,20 @@ void loop() {
 
         if (distancia >= 0) {
 
+            sequencia++;
+
             Serial.printf(
                 "Distancia: %.2f cm\n",
                 distancia
             );
 
-            if (protocoloAtivo == MQTT) {
+            if (PROTOCOLO_CONFIGURADO == MQTT) {
                 enviarMQTT(distancia);
             }
-
-            else if (protocoloAtivo == OPCUA) {
+            else {
                 enviarOPCUA(distancia);
             }
         }
-
         else {
             Serial.println("Erro na medicao.");
         }

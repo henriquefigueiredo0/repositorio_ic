@@ -1,99 +1,441 @@
 
-/* Aparencia geral da pagina */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    color: #202938;
-    margin: 0;
-    padding: 30px;
+/* Configuracoes gerais da pagina */
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #243247;
+    background: #f3f5f8;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-/* Organiza os paineis em duas colunas */
-.paineis {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-/* Aparencia dos paineis */
-.painel {
-    background-color: white;
-    border: 1px solid #dce2e8;
-    border-radius: 12px;
-    padding: 25px;
-}
-
-.painel h2 {
-    margin-top: 0;
-}
-
-/* Organiza os campos de configuracao */
-label {
-    display: block;
-    margin-top: 20px;
-    margin-bottom: 6px;
-    font-weight: bold;
-}
-
-input, select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #bfc8d2;
-    border-radius: 6px;
+* {
     box-sizing: border-box;
-    font-size: 15px;
 }
 
-/* Destaca os valores monitorados */
-.valor {
-    font-size: 30px;
-    font-weight: bold;
+body {
+    margin: 0;
+    min-height: 100vh;
 }
 
-/* Centraliza os botoes */
-.controles {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 25px;
+button, input, select {
+    font: inherit;
 }
 
 button {
-    padding: 12px 35px;
-    border: none;
-    border-radius: 7px;
-    background-color: #2563eb;
-    color: white;
-    font-size: 16px;
     cursor: pointer;
 }
 
-/* Diferencia o botao de parada */
-#parar {
-    background-color: #64748b;
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
-/* Ajusta a pagina para telas pequenas */
-@media (max-width: 650px) {
-    .paineis {
+.oculto {
+    display: none !important;
+}
+
+
+/* Container principal */
+.container {
+    width: min(1500px, 96%);
+    margin: 35px auto;
+}
+
+
+/* Cabecalho e botao de adicionar */
+.cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.cabecalho h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+.cabecalho p {
+    margin: 0;
+    color: #69788b;
+    font-size: 14px;
+}
+
+
+/* Botoes utilizados na interface */
+.botao {
+    padding: 10px 16px;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.15s;
+}
+
+.botao.primario {
+    background: #225dc7;
+    color: white;
+}
+
+.botao.primario:hover {
+    background: #194ca6;
+}
+
+.botao.secundario {
+    background: #ffffff;
+    color: #36465c;
+    border-color: #cdd5e1;
+}
+
+.botao.secundario:hover {
+    background: #f0f3f7;
+}
+
+.botao.perigo {
+    background: #fff2f2;
+    color: #b42328;
+    border-color: #f0c6c6;
+}
+
+.botao.perigo:hover {
+    background: #ffe1e1;
+}
+
+.botao.pequeno {
+    padding: 7px 10px;
+    font-size: 12px;
+}
+
+
+/* Indicadores dos servicos de comunicacao */
+.painel-servicos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 24px;
+}
+
+.servico {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 180px;
+    padding: 15px 20px;
+    background: #ffffff;
+    border: 1px solid #e0e5ec;
+    border-radius: 9px;
+}
+
+.servico div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.servico strong {
+    font-size: 14px;
+}
+
+.servico span:not(.indicador) {
+    font-size: 12px;
+    color: #69788b;
+}
+
+.indicador {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: #aab4c1;
+}
+
+.indicador.ligado {
+    background: #16a36b;
+    box-shadow: 0 0 0 4px #e0f5e9;
+}
+
+.indicador.desligado {
+    background: #d15d5d;
+    box-shadow: 0 0 0 4px #faebeb;
+}
+
+
+/* Mensagens de informacao ou erro */
+.mensagem {
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.mensagem.sucesso {
+    color: #176548;
+    background: #e6f6ee;
+    border: 1px solid #b9e5d0;
+}
+
+.mensagem.erro {
+    color: #a3232a;
+    background: #fff0f0;
+    border: 1px solid #f0c8c8;
+}
+
+
+/* Painel da tabela */
+.painel-tabela {
+    background: white;
+    border: 1px solid #e0e5ec;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.titulo-tabela {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    border-bottom: 1px solid #e0e5ec;
+}
+
+.titulo-tabela h2 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.titulo-tabela span {
+    color: #718096;
+    font-size: 13px;
+}
+
+.tabela-rolagem {
+    width: 100%;
+    overflow-x: auto;
+}
+
+
+/* Estrutura e aparencia das linhas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+th {
+    padding: 15px 13px;
+    text-align: left;
+    background: #f8fafc;
+    color: #5c6e85;
+    font-size: 12px;
+    font-weight: 600;
+    border-bottom: 1px solid #e0e5ec;
+}
+
+td {
+    padding: 14px 13px;
+    border-bottom: 1px solid #ecf0f4;
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background: #fafbfd;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tabela-vazia {
+    text-align: center;
+    color: #8190a3;
+    padding: 45px 20px;
+}
+
+.coluna-valor {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* Situacao individual de cada regra */
+.status {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.status.ativo {
+    background: #e8f5ee;
+    color: #17704c;
+}
+
+.status.inativo {
+    background: #eef0f4;
+    color: #6d7786;
+}
+
+
+/* Botoes de ativacao, edicao e exclusao */
+.grupo-acoes {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+
+/* Janela de cadastro e edicao */
+dialog {
+    width: min(640px, 94vw);
+    max-height: 90vh;
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #243247;
+    box-shadow: 0 15px 50px #00000035;
+    overflow-y: auto;
+}
+
+dialog::backdrop {
+    background: #14223c88;
+}
+
+#formulario-regra {
+    padding: 25px;
+}
+
+.cabecalho-formulario {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.cabecalho-formulario h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.botao-fechar {
+    background: transparent;
+    border: none;
+    color: #718096;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.botao-fechar:hover {
+    color: #243247;
+}
+
+
+/* Campos do formulario organizados em duas colunas */
+.grade-formulario {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.campo label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cad3df;
+    border-radius: 7px;
+    background: white;
+    color: #243247;
+    font-size: 14px;
+}
+
+.campo input:focus,
+.campo select:focus {
+    outline: 2px solid #b2c9f4;
+    border-color: #225dc7;
+}
+
+.campo input:read-only {
+    background: #f2f5f8;
+    color: #69788b;
+}
+
+.ajuda {
+    min-height: 32px;
+    margin: 20px 0;
+    color: #718096;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.rodape-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid #e0e5ec;
+}
+
+
+/* Adaptacao para telas menores */
+@media (max-width: 700px) {
+    .container {
+        width: 94%;
+        margin: 20px auto;
+    }
+
+    .cabecalho {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .cabecalho h1 {
+        font-size: 23px;
+    }
+
+    .painel-servicos {
+        flex-direction: column;
+    }
+
+    .servico {
+        width: 100%;
+    }
+
+    .grade-formulario {
         grid-template-columns: 1fr;
+    }
+
+    #formulario-regra {
+        padding: 18px;
+    }
+
+    .rodape-formulario {
+        flex-direction: column-reverse;
+    }
+
+    .rodape-formulario .botao {
+        width: 100%;
     }
 }
 
-/* Diferencia botoes desabilitados */
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Destaca os campos bloqueados */
-input:disabled, select:disabled {
-    background-color: #e9edf2;
-    color: #64748b;
-    cursor: not-allowed;
+/* Destaca regras que apresentaram falhas de comunicacao ou validacao */
+.status.erro {
+    background: #fff0f0;
+    color: #a3232a;
 }

@@ -8,64 +8,184 @@
 
     <title>Gateway Industrial</title>
 
-    <!-- Carrega o CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 
 <body>
+    <main class="container">
 
-    <h1>Gateway Industrial</h1>
+        <!-- Cabecalho da pagina -->
+        <header class="cabecalho">
+            <div>
+                <h1>Gateway Industrial</h1>
+                <p>Gerenciamento de regras de comunicação entre servidores e CLPs</p>
+            </div>
 
-    <!-- Area principal -->
-    <main class="paineis">
+            <button id="botao-adicionar" class="botao primario" type="button">
+                + Adicionar
+            </button>
+        </header>
 
-        <!-- Painel da ESP32 -->
-        <section class="painel">
-            <h2>ESP32</h2>
+        <!-- Estados dos servicos permanentes -->
+        <section class="painel-servicos">
+            <div class="servico">
+                <span class="indicador" id="indicador-mqtt"></span>
+                <div>
+                    <strong>MQTT</strong>
+                    <span id="status-mqtt">Verificando...</span>
+                </div>
+            </div>
 
-            <p>Status: <span id="status-esp">Parada</span></p>
+            <div class="servico">
+                <span class="indicador" id="indicador-opcua"></span>
+                <div>
+                    <strong>OPC UA</strong>
+                    <span id="status-opcua">Verificando...</span>
+                </div>
+            </div>
 
-            <label for="protocolo">Protocolo</label>
-            <select id="protocolo">
-                <option value="MQTT">MQTT</option>
-                <option value="OPCUA">OPC UA</option>
-            </select>
-
-            <label for="porta">Porta</label>
-            <input id="porta" type="number" value="1883">
-
-            <label for="parametro" id="label-parametro">
-                Topico MQTT
-            </label>
-            <input id="parametro" type="text" value="ic/esp/distancia">
-
-            <h3>Distancia medida</h3>
-            <p class="valor" id="distancia">-- cm</p>
+            <div class="servico">
+                <span class="indicador" id="indicador-clp"></span>
+                <div>
+                    <strong>Comunicação CLP</strong>
+                    <span id="status-clp">Verificando...</span>
+                </div>
+            </div>
         </section>
 
-        <!-- Painel do CLP -->
-        <section class="painel">
-            <h2>CLP</h2>
+        <!-- Mensagens de sucesso ou erro -->
+        <div id="mensagem" class="mensagem oculto" role="status" aria-live="polite"></div>
 
-            <p>Status: <span id="status-clp">Nao monitorado</span></p>
+        <!-- Tabela de regras cadastradas -->
+        <section class="painel-tabela">
+            <div class="titulo-tabela">
+                <h2>Regras de comunicação</h2>
+                <span id="contador-regras">0 regras</span>
+            </div>
 
-            <label for="ip-clp">Endereco IP</label>
-            <input id="ip-clp" type="text" value="192.168.0.1">
+            <div class="tabela-rolagem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Protocolo</th>
+                            <th>Direção</th>
+                            <th>Porta</th>
+                            <th>Tópico / Nó</th>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>IP do CLP</th>
+                            <th>Memória</th>
+                            <th>Valor</th>
+                            <th>Situação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
 
-            <h3>Estado da bomba</h3>
-            <p class="valor" id="estado-bomba">--</p>
+                    <tbody id="corpo-tabela">
+                        <tr>
+                            <td colspan="11" class="tabela-vazia">
+                                Carregando regras...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
     </main>
 
-    <!-- Controles gerais -->
-    <div class="controles">
-        <button type="button" id="iniciar">Iniciar</button>
-        <button type="button" id="parar" disabled>Parar</button>
-    </div>
+    <!-- Janela utilizada para adicionar e editar regras -->
+    <dialog id="janela-regra">
+        <form id="formulario-regra">
+            <div class="cabecalho-formulario">
+                <h2 id="titulo-formulario">Adicionar regra</h2>
+                <button type="button" id="botao-fechar" class="botao-fechar" aria-label="Fechar">
+                    &times;
+                </button>
+            </div>
 
-    <!-- Carrega o JavaScript -->
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+            <!-- ID vazio significa que sera criada uma regra nova -->
+            <input type="hidden" id="regra-id">
+
+            <div class="grade-formulario">
+
+                <div class="campo">
+                    <label for="protocolo">Protocolo</label>
+                    <select id="protocolo" required>
+                        <option value="MQTT">MQTT</option>
+                        <option value="OPCUA">OPC UA</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="direcao">Direção</label>
+                    <select id="direcao" required>
+                        <option value="SERVIDOR_PARA_CLP">Servidor → CLP</option>
+                        <option value="CLP_PARA_SERVIDOR">CLP → Servidor</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="porta">Porta</label>
+                    <input type="number" id="porta" min="1" max="65535" required>
+                </div>
+
+                <div class="campo">
+                    <label for="topico" id="rotulo-topico">Tópico MQTT</label>
+                    <input type="text" id="topico" maxlength="200" required>
+                </div>
+
+                <div class="campo">
+                    <label for="parametro">Parâmetro</label>
+                    <input type="text" id="parametro" maxlength="80" placeholder="Ex.: distancia" required>
+                </div>
+
+                <div class="campo">
+                    <label for="tipo">Tipo do dado</label>
+                    <select id="tipo" required>
+                        <option value="REAL">REAL</option>
+                        <option value="INT">INT</option>
+                        <option value="BOOL">BOOL</option>
+                        <option value="STRING">STRING</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="ip-clp">IP do CLP</label>
+                    <input type="text" id="ip-clp" placeholder="192.168.0.1" required>
+                </div>
+
+                <div class="campo">
+                    <label for="memoria">Posição de memória</label>
+                    <input type="text" id="memoria" placeholder="MD10" required>
+                </div>
+
+                <div class="campo" id="campo-tamanho-string">
+                    <label for="tamanho-string">Tamanho da STRING</label>
+                    <input type="number" id="tamanho-string" min="1" max="254" value="32">
+                </div>
+
+                <div class="campo" id="campo-intervalo">
+                    <label for="intervalo-ms">Intervalo de leitura (ms)</label>
+                    <input type="number" id="intervalo-ms" min="50" max="60000" value="200">
+                </div>
+
+            </div>
+
+            <p class="ajuda" id="ajuda-regra"></p>
+
+            <div class="rodape-formulario">
+                <button type="button" id="botao-cancelar" class="botao secundario">
+                    Cancelar
+                </button>
+
+                <button type="submit" id="botao-salvar" class="botao primario">
+                    Salvar regra
+                </button>
+            </div>
+        </form>
+    </dialog>
 
 </body>
 </html>

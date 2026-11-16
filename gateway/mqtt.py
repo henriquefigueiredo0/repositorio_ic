@@ -1,50 +1,166 @@
+
+import json
+import threading
 import paho.mqtt.client as mqtt
 
-from config import broker_mqtt, porta_mqtt, topico_distancia
+import config
 
-funcao_distancia = None
 
-def quando_conectar(cliente, userdata, flags, reason_code, properties):
+class ServicoMQTT:
 
-    print("Conectado ao broker!")
-    cliente.subscribe(topico_distancia)      # Inscreve-se no tópico para receber mensagens da ESP sobre a distancia
+    def __init__(self, receber_dados):
+        # Funcao do motor de regras que recebera as mensagens
+        self.receber_dados = receber_dados
 
-def quando_receber(cliente, userdata, mensagem):
+        # Cria o cliente que se conectara ao broker Mosquitto
+        self.cliente = mqtt.Client(
+            callback_api_version=mqtt.CallbackAPIVersion.VERSION2,
+            client_id="gateway_ic"
+        )
 
-    dado = mensagem.payload.decode()    # Decodifica o payload da mensagem e deixa em formato string
+        # Define as funcoes executadas nos eventos MQTT
+        self.cliente.on_connect = self.ao_conectar
+        self.cliente.on_disconnect = self.ao_desconectar
+        self.cliente.on_message = self.ao_receber
 
-    # Caso o topico seja o de distancia
-    if mensagem.topic == topico_distancia:
+        # Guarda os topicos utilizados pelas regras ativas
+        self.topicos = set()
 
-        distancia = float(dado)  
+        # Guarda o estado da comunicacao
+        self.conectado = False
+        self.iniciado = False
 
-        print("Distancia recebida da ESP:", dado, "cm")
-        print()
+        # Protege as configuracoes contra acessos simultaneos
+        self.lock = threading.RLock()
 
-        if funcao_distancia is not None:
-            funcao_distancia(distancia)     # Aqui, funcao_distancia == escrever_distancia
+        # Configura tentativas automaticas de reconexao
+        self.cliente.reconnect_delay_set(min_delay=1, max_delay=10)
 
-# Cria o objeto cliente MQTT
-cliente = mqtt.Client(
-    callback_api_version=mqtt.CallbackAPIVersion.VERSION2
-)
+    # Executada automaticamente quando conecta ao broker
+    def ao_conectar(self, cliente, userdata, flags, reason_code, properties):
+        if reason_code.is_failure:
+            with self.lock:
+                self.conectado = False
 
-cliente.on_connect = quando_conectar    # Chama a funcao quando_conectar quando o cliente se conectar ao broker
-cliente.on_message = quando_receber     # Chama a funcao quando_receber quando o cliente receber uma mensagem
+            print(f"Falha na conexao MQTT: {reason_code}")
+            return
 
-# Funcao chamada pelo main caso o protocolo ativo seja MQTT
-# A funcao "callback_distancia" seria a "escrever_distancia"
-def iniciar(callback_distancia):
+        with self.lock:
+            self.conectado = True
 
-    global funcao_distancia         # para modificar a variavel funcao_distancia
+            # Reinscreve os topicos apos uma reconexao
+            for topico in self.topicos:
+                cliente.subscribe(topico, qos=1)
 
-    funcao_distancia = callback_distancia   # funcao_distancia deixa de ser None e passa a ser escrever_distancia
+        print("MQTT conectado ao broker!")
 
-    cliente.connect(broker_mqtt, porta_mqtt)  # Se conecta ao broker MQTT
-    cliente.loop_start()            # Mantem o loop em segundo plano
+    # Executada automaticamente quando perde ou encerra a conexao
+    def ao_desconectar(self, cliente, userdata, disconnect_flags, reason_code, properties):
+        with self.lock:
+            self.conectado = False
 
-# Para o loop MQTT
-def parar():
+        print(f"MQTT desconectado: {reason_code}")
 
-    cliente.loop_stop()
-    cliente.disconnect()
+    # Executada quando chega uma mensagem em um topico assinado
+    def ao_receber(self, cliente, userdata, mensagem):
+        try:
+            if mensagem.retain:
+                print(f"Mensagem MQTT retida ignorada: {mensagem.topic}")
+                return
+
+            # Converte os bytes recebidos em texto UTF-8
+            texto = mensagem.payload.decode("utf-8")
+
+            # Transforma o JSON em um dicionario Python
+            pacote = json.loads(texto)
+
+            if not isinstance(pacote, dict):
+                raise ValueError("A mensagem MQTT deve ser um objeto JSON.")
+
+            # O formato padrao exige o campo dados
+            dados = pacote.get("dados")
+
+            if not isinstance(dados, dict):
+                raise ValueError("O JSON deve conter o objeto 'dados'.")
+
+            # Envia o pacote ao motor, que selecionara os parametros
+            self.receber_dados(mensagem.topic, pacote)
+
+        except (UnicodeDecodeError, json.JSONDecodeError, ValueError) as erro:
+            print(f"Mensagem MQTT invalida no topico {mensagem.topic}: {erro}")
+
+        except Exception as erro:
+            print(f"Erro ao processar MQTT no topico {mensagem.topic}: {erro}")
+
+    # Inicia a conexao MQTT sem bloquear o servidor web
+    def iniciar(self):
+        if self.iniciado:
+            return
+
+        # Agenda a conexao com o broker configurado
+        self.cliente.connect_async(config.BROKER_MQTT, config.PORTA_MQTT)
+
+        # O loop em segundo plano processa mensagens e reconexoes
+        self.cliente.loop_start()
+
+        self.iniciado = True
+        print("Servico MQTT iniciado.")
+
+    # Atualiza as assinaturas quando as regras forem modificadas
+    def configurar_topicos(self, novos_topicos):
+        novos_topicos = set(novos_topicos)
+
+        with self.lock:
+            # Descobre quais topicos foram adicionados ou removidos
+            adicionar = novos_topicos - self.topicos
+            remover = self.topicos - novos_topicos
+
+            self.topicos = novos_topicos
+
+            if not self.conectado:
+                return
+
+            # Remove assinaturas que nao sao mais necessarias
+            for topico in remover:
+                self.cliente.unsubscribe(topico)
+
+            # Assina novos topicos sem reiniciar o MQTT
+            for topico in adicionar:
+                self.cliente.subscribe(topico, qos=1)
+
+    # Publica um pacote JSON no topico escolhido
+    def publicar(self, topico, pacote):
+        with self.lock:
+            conectado = self.conectado
+
+        if not conectado:
+            raise ConnectionError("Broker MQTT desconectado.")
+
+        # Converte o dicionario Python em JSON valido
+        mensagem = json.dumps(pacote, ensure_ascii=False, allow_nan=False)
+
+        # Publica com QoS 1 para solicitar confirmacao do broker
+        resultado = self.cliente.publish(topico, mensagem, qos=1, retain=False)
+
+        if resultado.rc != mqtt.MQTT_ERR_SUCCESS:
+            raise ConnectionError(f"Falha ao publicar MQTT: {resultado.rc}")
+
+        # Aguarda a confirmacao para nao informar sucesso prematuramente
+        resultado.wait_for_publish(timeout=5)
+
+        if not resultado.is_published():
+            raise TimeoutError("Tempo limite para confirmar publicacao MQTT.")
+
+    # Encerra a conexao quando o processo do gateway finalizar
+    def parar(self):
+        if not self.iniciado:
+            return
+
+        self.cliente.disconnect()
+        self.cliente.loop_stop()
+
+        with self.lock:
+            self.conectado = False
+            self.iniciado = False
+
+        print("Servico MQTT encerrado.")
