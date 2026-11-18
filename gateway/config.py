@@ -27,7 +27,7 @@ PORTA_WEB = 5001
 
 # Comunicacao com os CLPs Siemens
 # Deixe False enquanto estiver sem o equipamento
-HABILITAR_CLP = TRUE
+HABILITAR_CLP = True
 
 # Parametros de conexao padrao do S7-1200
 CLP_RACK = 0
